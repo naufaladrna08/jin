@@ -1,0 +1,14 @@
+{
+  "configurations": [
+    {
+      "name": "Jin",
+      "includePath": [
+          "/usr/include/x86_64-linux-gnu/qt5/"
+      ],
+      "cStandard": "c11",
+      "intelliSenseMode": "linux-gcc-x64",
+      "compilerPath": "/usr/bin/gcc"
+    }
+  ],
+  "version": 4
+}
