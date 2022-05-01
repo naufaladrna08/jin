@@ -28,6 +28,8 @@ MainWindow::MainWindow(QWidget* parent)
   setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
 
   read_files("5");
+  QString file = open_file("050.templ");
+  qInfo() << file;
 }
 
 MainWindow::~MainWindow() {

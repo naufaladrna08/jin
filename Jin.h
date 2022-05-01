@@ -10,6 +10,9 @@
 #include <sys/types.h>
 #include <pwd.h>
 
+#include <QtWidgets/QMessageBox>
+
 QStringList read_files(QString search);
+QString open_file(QString name);
 
 #endif // __JIN_H__

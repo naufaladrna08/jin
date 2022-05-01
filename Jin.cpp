@@ -42,3 +42,34 @@ QStringList read_files(QString search) {
 
   return lists;
 }
+
+QString open_file(QString name) {
+  QString content;
+
+  /* Getting home directory */
+  struct passwd* pw = getpwuid(getuid());
+  char* HOME = pw->pw_dir;
+  strcat(HOME, "/.jin-templates/");
+
+  QString path = QString::fromLocal8Bit(HOME);
+  path.append(name);
+
+  /* Read. */
+  QFile file(path);
+  file.open(QIODevice::ReadOnly);
+
+  if (file.exists()) {
+    QTextStream in(&file);
+
+    QString line;
+    while (!in.atEnd()) {
+      line = in.readLine();
+      content.append(line);
+    }
+  } else {
+    return QString("File not found");
+  } 
+
+  file.close();
+  return content;
+}
