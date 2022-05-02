@@ -19,7 +19,9 @@ int main(int argc, char** argv) {
   MainWindow w;
   w.show(); 
 
-  /* Load stylesheet */
+  /* Load font and stylesheet */
+  QFontDatabase::addApplicationFont("./themes/default/fonts/Montserrat-Regular.ttf");
+
   QFile file("themes/default/theme.qss");
   file.open(QFile::ReadOnly);
   QString stylesheet = QLatin1String(file.readAll());

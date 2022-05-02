@@ -18,8 +18,9 @@ MainWindow::MainWindow(QWidget* parent)
   QScreen *screen = QGuiApplication::primaryScreen();
   QRect screenGeometry = screen->geometry();
   
+  int textboxHeight = 32 + 8;
   int width = screenGeometry.width() / 3;
-  int height = (screenGeometry.height() / 8) / 2;
+  int height = (screenGeometry.height() / 8) / 2 + 8;
 
   setFixedWidth(width);
   setFixedHeight(height);
@@ -35,9 +36,10 @@ MainWindow::MainWindow(QWidget* parent)
 
   m_clipboard = QApplication::clipboard();
   m_textbox = new QLineEdit;
+  m_textbox->setFixedHeight(textboxHeight);
 
   /* Layout */
-  QHBoxLayout *row = new QHBoxLayout;
+  QVBoxLayout *row = new QVBoxLayout;
   row->addWidget(m_textbox);
   row->addStretch(1);
 
@@ -49,10 +51,10 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::paintEvent(QPaintEvent* e) {
-  QPainter painter (this);
-  painter.setRenderHint (QPainter::Antialiasing);//Anti-aliasing;
-  painter.setBrush(QBrush(Qt::red));
+  QPainter painter(this);
+  painter.setRenderHint(QPainter::Antialiasing);
   painter.setPen(Qt::transparent);
+  painter.setBrush(Qt::white);
 
   QRect rect = this->rect();
   rect.setWidth(rect.width() - 1);
