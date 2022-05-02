@@ -30,6 +30,8 @@ class MainWindow : public QWidget {
     QClipboard* m_clipboard;
 
     QLineEdit* m_textbox;
+    
+    void paintEvent(QPaintEvent* e);
 };
 
 #endif // __MAINWINDOW_H__

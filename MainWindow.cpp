@@ -18,12 +18,20 @@ MainWindow::MainWindow(QWidget* parent)
   QScreen *screen = QGuiApplication::primaryScreen();
   QRect screenGeometry = screen->geometry();
   
-  int width = screenGeometry.width() / 4;
+  int width = screenGeometry.width() / 3;
   int height = (screenGeometry.height() / 8) / 2;
 
   setFixedWidth(width);
   setFixedHeight(height);
+  setGeometry(
+    screenGeometry.width() / 2 - width / 2,
+    screenGeometry.height() / 2 - 100,
+    width,
+    height
+  );
+
   setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
+  setAttribute(Qt::WA_TranslucentBackground);
 
   m_clipboard = QApplication::clipboard();
   m_textbox = new QLineEdit;
@@ -38,4 +46,18 @@ MainWindow::MainWindow(QWidget* parent)
 
 MainWindow::~MainWindow() {
   
+}
+
+void MainWindow::paintEvent(QPaintEvent* e) {
+  QPainter painter (this);
+  painter.setRenderHint (QPainter::Antialiasing);//Anti-aliasing;
+  painter.setBrush(QBrush(Qt::red));
+  painter.setPen(Qt::transparent);
+
+  QRect rect = this->rect();
+  rect.setWidth(rect.width() - 1);
+  rect.setHeight(rect.height() - 1);
+  painter.drawRoundedRect(rect, 15, 15);
+
+  QWidget::paintEvent(e);
 }
