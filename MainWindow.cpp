@@ -11,25 +11,29 @@
 
 #include <QtWidgets/QtWidgets>
 #include "MainWindow.hpp"
-#include <QtCore/QDebug>
 
 MainWindow::MainWindow(QWidget* parent)
   : QWidget(parent) {
+  /* Get screen size and set window size */
   QScreen *screen = QGuiApplication::primaryScreen();
   QRect screenGeometry = screen->geometry();
   
-  int height = screenGeometry.height();
-  int width = screenGeometry.width();
+  int width = screenGeometry.width() / 4;
+  int height = (screenGeometry.height() / 8) / 2;
 
-  setWindowTitle(tr("Jin"));
-  setFixedWidth(width / 4);
-  setFixedHeight(height / 8);
-
+  setFixedWidth(width);
+  setFixedHeight(height);
   setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
 
-  read_files("5");
-  QString file = open_file("050.templ");
-  qInfo() << file;
+  m_clipboard = QApplication::clipboard();
+  m_textbox = new QLineEdit;
+
+  /* Layout */
+  QHBoxLayout *row = new QHBoxLayout;
+  row->addWidget(m_textbox);
+  row->addStretch(1);
+
+  setLayout(row);
 }
 
 MainWindow::~MainWindow() {

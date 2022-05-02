@@ -9,6 +9,8 @@
  */
 
 #include <QtWidgets/QtWidgets>
+#include <QtCore/QDebug>
+#include <QtGui/QClipboard>
 #include "MainWindow.hpp"
 
 int main(int argc, char** argv) {

@@ -1,6 +1,7 @@
 {
   "files.associations": {
     "qdebug": "cpp",
-    "qdiriterator": "cpp"
+    "qdiriterator": "cpp",
+    "new": "cpp"
   }
 }

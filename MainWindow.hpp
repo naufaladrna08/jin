@@ -17,12 +17,19 @@
 #include <QtWidgets/QWidget>
 #include "Jin.h"
 
+class QLineEdit;
+
 class MainWindow : public QWidget {
   Q_OBJECT
 
   public:
     explicit MainWindow(QWidget* parent = 0);
     ~MainWindow();
+
+  private:
+    QClipboard* m_clipboard;
+
+    QLineEdit* m_textbox;
 };
 
 #endif // __MAINWINDOW_H__
