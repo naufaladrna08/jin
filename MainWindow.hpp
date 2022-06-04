@@ -15,9 +15,13 @@
 #define __MAINWINDOW_H__
 
 #include <QtWidgets/QWidget>
+#include <vector>
 #include "Jin.h"
 
 class QLineEdit;
+class QVBoxLayout;
+class QButtonGroup;
+class QClipboard;
 
 class MainWindow : public QWidget {
   Q_OBJECT
@@ -26,11 +30,15 @@ class MainWindow : public QWidget {
     explicit MainWindow(QWidget* parent = 0);
     ~MainWindow();
 
+  private slots:
+    void onCompleterActivated(QString str);
+
   private:
     QClipboard* m_clipboard;
-
     QLineEdit* m_textbox;
-    
+    QVBoxLayout *m_layout;
+    QButtonGroup* m_list;
+
     void paintEvent(QPaintEvent* e);
 };
 

@@ -22,8 +22,6 @@ MainWindow::MainWindow(QWidget* parent)
   int width = screenGeometry.width() / 3;
   int height = (screenGeometry.height() / 8) / 2 + 8;
 
-  setFixedWidth(width);
-  setFixedHeight(height);
   setGeometry(
     screenGeometry.width() / 2 - width / 2,
     screenGeometry.height() / 2 - 100,
@@ -38,12 +36,29 @@ MainWindow::MainWindow(QWidget* parent)
   m_textbox = new QLineEdit;
   m_textbox->setFixedHeight(textboxHeight);
 
-  /* Layout */
-  QVBoxLayout *row = new QVBoxLayout;
-  row->addWidget(m_textbox);
-  row->addStretch(1);
+  m_list = new QButtonGroup;
 
-  setLayout(row);
+  /* Layout */
+  m_layout = new QVBoxLayout;
+  QHBoxLayout *row = new QHBoxLayout;
+  QVBoxLayout *col = new QVBoxLayout;
+
+  col->addWidget(m_textbox);
+  row->addItem(col);
+
+  m_layout->addLayout(row);
+
+  setLayout(m_layout);
+
+  QString search = m_textbox->text();
+  QStringList lists =  read_files(search);
+  qDebug() << "\n" << lists << "\n";
+
+  QCompleter *m_completer = new QCompleter(lists, this);
+  m_completer->setCaseSensitivity(Qt::CaseInsensitive);
+  m_textbox->setCompleter(m_completer);
+
+  connect(m_completer, SIGNAL(activated(QString)), this, SLOT(onCompleterActivated(QString)));
 }
 
 MainWindow::~MainWindow() {
@@ -62,4 +77,16 @@ void MainWindow::paintEvent(QPaintEvent* e) {
   painter.drawRoundedRect(rect, 15, 15);
 
   QWidget::paintEvent(e);
+}
+
+void MainWindow::onCompleterActivated(QString str) {
+  /* 1. Load file, open. */
+  QString text = open_file(str);
+
+  /* 2. Send to clipboard */
+  QClipboard* clipboard = QApplication::clipboard();
+  clipboard->setText(text);
+
+  /* 3. Close window */
+  // QApplication::quit();
 }
