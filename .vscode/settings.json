@@ -3,7 +3,8 @@
     "qdebug": "cpp",
     "qdiriterator": "cpp",
     "new": "cpp",
-    "gtk.h": "c"
+    "gtk.h": "c",
+    "gi18n.h": "c"
   },
   "C_Cpp.errorSquiggles": "Disabled"
 }
