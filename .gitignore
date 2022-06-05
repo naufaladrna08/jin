@@ -3,3 +3,4 @@ jin
 .qmake*
 moc_*
 Makefile
+build/
