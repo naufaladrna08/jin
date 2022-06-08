@@ -32,7 +32,8 @@
 
 typedef const char* cstring;
 
+cstring get_template_directory();
 std::vector<cstring> ls_home();
-cstring open(const char* name);
+cstring open(char* name);
 
 #endif

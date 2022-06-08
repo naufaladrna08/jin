@@ -1,18 +1,20 @@
 #include <Utils.h>
 
-void test() {
-  std::cout << "test" << std::endl;
-}
-
-std::vector<cstring> ls_home() {
-  std::vector<cstring> vec;
-
+cstring get_template_directory() {
   /* Getting home directory */
   struct passwd* pw = getpwuid(getuid());;
   char* HOME = pw->pw_dir;
 
   /* Concat HOME with templates folder */
-  strcat(HOME, "/.jin-templates");
+  strcat(HOME, "/.jin-templates/");
+
+  return (cstring) HOME;
+}
+
+std::vector<cstring> ls_home() {
+  std::vector<cstring> vec;
+
+  cstring HOME = get_template_directory();
 
   /* Read! */
   DIR* d;
@@ -30,8 +32,29 @@ std::vector<cstring> ls_home() {
   return vec;
 }
 
-cstring open(const char* name) {
-  cstring tmp;
+cstring open(char* name) {
+  char* HOME = (char*) get_template_directory();
+  strcat(HOME, name);
+
+  FILE    *textfile;
+  char    *text;
+  long    numbytes;
+    
+  textfile = fopen(HOME, "r");
+  if(textfile == NULL)
+    exit(1);
+    
+  fseek(textfile, 0L, SEEK_END);
+  numbytes = ftell(textfile);
+  fseek(textfile, 0L, SEEK_SET);  
+
+  text = (char*) calloc(numbytes, sizeof(char));   
   
-  return tmp;
+  if (text == NULL)
+    exit(1);
+
+  fread(text, sizeof(char), numbytes, textfile);
+  fclose(textfile);
+
+  return text;
 }
