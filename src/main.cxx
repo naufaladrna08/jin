@@ -1,9 +1,11 @@
 #include <MainWindow.hpp>
+#include <gtkmm/main.h>
 
-int main(int argc, char** argv) {
-  auto app = Gtk::Application::create(argc, argv, "org.kincirangin.jin");
+int main(int argc, char *argv[]) {
+  Gtk::Main kit(argc, argv);
 
-  MainWindow w;
-  
-  return app->run(w);
+  MainWindow root;
+  Gtk::Main::run(root);
+
+  return 0;
 }

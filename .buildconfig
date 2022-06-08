@@ -1,0 +1,11 @@
+[default]
+name=Default
+runtime=host
+toolchain=default
+config-opts=
+run-opts=/home/naufal/Dokumen/Projects/C_and_CXX_Projects/Intern/jin-qt/build/src/jin
+prefix=/home/naufal/.cache/gnome-builder/install/jin-qt/host
+app-id=
+postbuild=
+prebuild=
+default=true
