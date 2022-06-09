@@ -29,11 +29,14 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <pwd.h>
+#include <TFile.h>
 
 typedef const char* cstring;
 
+static tfile_t root = nullptr;
+
 cstring get_template_directory();
-std::vector<cstring> ls_home();
+void ls_home();
 cstring open(char* name);
 
 #endif

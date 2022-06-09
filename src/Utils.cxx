@@ -11,9 +11,7 @@ cstring get_template_directory() {
   return (cstring) HOME;
 }
 
-std::vector<cstring> ls_home() {
-  std::vector<cstring> vec;
-
+void ls_home() {
   cstring HOME = get_template_directory();
 
   /* Read! */
@@ -23,13 +21,11 @@ std::vector<cstring> ls_home() {
 
   if (d) {
     while ((dir = readdir(d)) != NULL) {
-      vec.push_back(dir->d_name);
+      tfile_append(&root, dir->d_name);
     }
 
     closedir(d);
   }
-
-  return vec;
 }
 
 cstring open(char* name) {
