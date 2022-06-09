@@ -33,8 +33,6 @@
 
 typedef const char* cstring;
 
-static tfile_t root = nullptr;
-
 cstring get_template_directory();
 void ls_home();
 cstring open(char* name);

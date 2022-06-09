@@ -1,4 +1,5 @@
 #include <Utils.h>
+tfile_t root = nullptr;
 
 cstring get_template_directory() {
   /* Getting home directory */
