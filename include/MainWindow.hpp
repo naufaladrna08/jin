@@ -27,6 +27,8 @@ class MainWindow : public Gtk::Window {
     GtkListStore *store;
     GtkTreeModel* populateCompletion();
 
+    bool onKeyPress(GdkEventKey* event);
+
   private:
     int m_screenw, m_screenh;
 };

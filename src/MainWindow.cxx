@@ -1,4 +1,5 @@
 #include <MainWindow.hpp>
+#include <gdk/gdkkeysyms.h>
 
 MainWindow::MainWindow() {
   set_border_width(1);
@@ -31,6 +32,7 @@ MainWindow::MainWindow() {
   m_textbox.show();
 
   // m_button.signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::OnButtonPressed));
+  m_textbox.signal_key_press_event().connect(sigc::mem_fun(*this, &MainWindow::onKeyPress), false);
 }
 
 MainWindow::~MainWindow() {
@@ -50,4 +52,15 @@ GtkTreeModel* MainWindow::populateCompletion() {
 	}
 
   return GTK_TREE_MODEL(store);
+}
+
+bool MainWindow::onKeyPress(GdkEventKey* event) {
+  if (event->keyval == 65293) {
+    cstring filecontent = open(strdup(m_textbox.get_text().c_str()));
+
+    GtkClipboard* clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+    gtk_clipboard_set_text(clipboard, filecontent, -1);
+  }
+
+  return false;
 }
