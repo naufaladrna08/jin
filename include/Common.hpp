@@ -15,7 +15,8 @@
 #define COMMON_H
 
 #define APP_NAME "Jin"
-#define GTK_NAME "org.kincirangin.jin"
+#define GTK_ID "org.kincirangin.jin"
 #define TEMPLATE_PATH ".jin-templates/"
+#define KEY_SHORTCUT "<Ctrl>D"
 
 #endif
