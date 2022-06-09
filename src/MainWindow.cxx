@@ -28,8 +28,11 @@ MainWindow::MainWindow() {
   /* Set window's size */
   Gtk::Window::set_size_request(m_screenw / 3, 32);
   Gtk::Window::move((m_screenw / 2) - (m_screenw / 3) / 2, m_screenh / 2 - 64);
+  Gtk::Window::set_skip_taskbar_hint(true);
+  
   add(m_textbox);
   m_textbox.show();
+  m_textbox.grab_focus();
 
   // m_button.signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::OnButtonPressed));
   m_textbox.signal_key_press_event().connect(sigc::mem_fun(*this, &MainWindow::onKeyPress), false);
@@ -60,6 +63,7 @@ bool MainWindow::onKeyPress(GdkEventKey* event) {
 
     GtkClipboard* clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
     gtk_clipboard_set_text(clipboard, filecontent, -1);
+    Gtk::Window::hide();
   }
 
   return false;

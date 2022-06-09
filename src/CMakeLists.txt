@@ -11,4 +11,4 @@ add_executable(jin
   TFile.cxx
 )
 
-target_link_libraries(jin ${GTKMM_LIBRARIES} -lX11)
+target_link_libraries(jin ${GTKMM_LIBRARIES} ${KEYBINDER_LIBRARIES} -lX11)
