@@ -18,7 +18,6 @@ enum {
   NUM_COLS
 };
 
-
 class MainWindow : public Gtk::Window {
   public:
     MainWindow();
