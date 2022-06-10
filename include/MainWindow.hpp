@@ -14,7 +14,6 @@ extern tfile_t root;
 
 enum {
   COL_NAME = 0,
-  COL_PATH,
   NUM_COLS
 };
 

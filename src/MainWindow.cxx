@@ -53,18 +53,28 @@ MainWindow::~MainWindow() {
 
 GtkTreeModel* MainWindow::populateCompletion() {
   ls_home();
-  store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_STRING);
+  store = gtk_list_store_new(1, G_TYPE_STRING);
   GtkTreeIter iter;
 
   tfile_t c = root;
 	while (c != nullptr) {
+    char tmp[512] = {};
+    int i = 0;
+
+    while (c->data[i] != '.') {
+      tmp[i] = c->data[i];
+      i++;
+    }
+
+    printf("temp: %s\n", tmp);
+
 		gtk_list_store_append(store, &iter);
-    gtk_list_store_set(store, &iter, COL_NAME, c->data, COL_PATH, c->data, -1);
+    gtk_list_store_set(store, &iter, COL_NAME, tmp, -1);
 		c = c->next;
 	}
 
   gtk_list_store_append(store, &iter);
-  gtk_list_store_set(store, &iter, COL_NAME, "(+) Add new template", COL_PATH, "(+) Add new template", -1);
+  gtk_list_store_set(store, &iter, COL_NAME, "(+) Add new template", -1);
 
   return GTK_TREE_MODEL(store);
 }
