@@ -32,6 +32,7 @@ void ls_home() {
 cstring open(char* name) {
   char* HOME = (char*) get_template_directory();
   strcat(HOME, name);
+  strcat(HOME, EXTENSION);
 
   FILE    *textfile;
   char    *text;

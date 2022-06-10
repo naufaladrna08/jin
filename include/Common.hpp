@@ -26,5 +26,6 @@
 #define CONFIG_PATH ".config/jin/"
 #define CONFIG_NAME name "jin.cfg" // Later
 #define DEFAULT_CSS "default.css"
+#define EXTENSION ".tmpl"
 
 #endif
