@@ -23,4 +23,8 @@
 
 #define HOME g_get_home_dir()
 
+#define CONFIG_PATH ".config/jin/"
+#define CONFIG_NAME name "jin.cfg" // Later
+#define DEFAULT_CSS "default.css"
+
 #endif

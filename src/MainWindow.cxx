@@ -1,5 +1,6 @@
 #include <MainWindow.hpp>
 #include <gdk/gdkkeysyms.h>
+#include <gdkmm.h>
 #include <string.h>
 
 MainWindow::MainWindow() {
@@ -16,9 +17,10 @@ MainWindow::MainWindow() {
 
   /* Disable window's frame */
   Gtk::Window::set_decorated(false);
+  Gtk::Window::set_app_paintable(true);
 
-  GtkEntryCompletion *completion;
-  GtkTreeModel *completion_model;
+  /* Load Stylesheet (CSS) */
+  this->LoadStylesheet();
 
   completion = gtk_entry_completion_new();
   gtk_entry_set_completion (GTK_ENTRY(m_textbox.gobj()), completion);
@@ -39,6 +41,10 @@ MainWindow::MainWindow() {
 
   // m_button.signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::OnButtonPressed));
   m_textbox.signal_key_press_event().connect(sigc::mem_fun(*this, &MainWindow::onKeyPress), false);
+  signal_draw().connect(sigc::mem_fun(*this, &MainWindow::onDraw));
+  signal_screen_changed().connect(sigc::mem_fun(*this, &MainWindow::onScreenChanged));
+
+  onScreenChanged(get_screen());
 }
 
 MainWindow::~MainWindow() {
@@ -75,10 +81,70 @@ bool MainWindow::onKeyPress(GdkEventKey* event) {
       GtkClipboard* clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
       gtk_clipboard_set_text(clipboard, filecontent, -1);
       Gtk::Window::hide();
+
+      /* Reset textbox */
+      m_textbox.set_text("");
     }
   }
 
-  m_textbox.set_text("");
 
   return false;
+}
+
+void MainWindow::LoadStylesheet() {
+  auto css = Gtk::CssProvider::create();
+  string PATH = (string) HOME;
+  
+  /* Getting default css */
+  strcat(PATH, "/");
+  strcat(PATH, CONFIG_PATH);
+  strcat(PATH, DEFAULT_CSS);
+
+  if (!css->load_from_path(PATH)) {
+    printf("Failed to load css\n");
+    exit(1);
+  }
+
+  Glib::RefPtr<Gtk::CssProvider> provider = Gtk::CssProvider::create();
+	provider->load_from_path(PATH);
+	
+  /* All context */
+	Glib::RefPtr<Gtk::StyleContext> styleContext = Gtk::StyleContext::create();
+	Glib::RefPtr<Gdk::Screen> screen = Gdk::Screen::get_default();
+	
+	styleContext->add_provider_for_screen(screen, provider, GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+
+  /* Specific Context */
+  Glib::RefPtr<Gtk::StyleContext> entryContext = m_textbox.get_style_context();
+
+  entryContext->add_class("textbox");
+}
+
+bool MainWindow::onDraw(const Cairo::RefPtr<Cairo::Context>& ctx) {
+  ctx->save();
+
+  ctx->set_source_rgba(0, 0, 0, 0);
+  ctx->set_operator(Cairo::OPERATOR_SOURCE);
+  ctx->paint();
+  ctx->restore();
+
+  return Gtk::Window::on_draw(ctx);
+}
+
+void MainWindow::onScreenChanged(const Glib::RefPtr<Gdk::Screen>& previous_screen) {
+  auto screen = get_screen();
+  auto visual = screen->get_rgba_visual();
+
+  if (!visual) {
+    std::cout << "Your screen does not support alpha channels!" << std::endl;
+  } else {
+    std::cout << "Your screen supports alpha channels!" << std::endl;
+    _SUPPORTS_ALPHA = TRUE;
+  }
+
+  setVisual(visual);
+}
+
+void MainWindow::setVisual(Glib::RefPtr<Gdk::Visual> visual) {
+  gtk_widget_set_visual(GTK_WIDGET(gobj()), visual->gobj());
 }
