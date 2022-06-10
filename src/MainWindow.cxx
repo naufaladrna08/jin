@@ -75,7 +75,7 @@ bool MainWindow::onKeyPress(GdkEventKey* event) {
     // m_createTemplate = new CreateTemplateWindow;
     // m_createTemplate->show();
   } else {
-    if (event->keyval == 65293) {
+    if (event->keyval == GDK_KEY_Return) {
       cstring filecontent = open(strdup(m_textbox.get_text().c_str()));
 
       GtkClipboard* clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
@@ -84,9 +84,11 @@ bool MainWindow::onKeyPress(GdkEventKey* event) {
 
       /* Reset textbox */
       m_textbox.set_text("");
+    } else if (event->keyval == GDK_KEY_Escape) {
+      Gtk::Window::hide();
+      m_textbox.set_text("");
     }
   }
-
 
   return false;
 }
