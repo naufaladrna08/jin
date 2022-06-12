@@ -4,7 +4,7 @@
 #include <gtkmm.h>
 #include <stdio.h>
 #include <Utils.h>
-#include <Common.hpp>
+#include <Common.h>
 
 /* Load X11 Linux */
 #include <X11/Xlib.h>
