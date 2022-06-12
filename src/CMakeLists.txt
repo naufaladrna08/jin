@@ -9,6 +9,7 @@ add_executable(jin
   MainWindow.cxx
   Utils.cxx
   TFile.cxx
+  FormWindow.cxx
 )
 
 target_link_libraries(jin ${GTKMM_LIBRARIES} ${KEYBINDER_LIBRARIES} -lX11)
