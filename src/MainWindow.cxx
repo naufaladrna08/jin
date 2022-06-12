@@ -24,6 +24,7 @@ MainWindow::MainWindow() {
 
   completion = gtk_entry_completion_new();
   gtk_entry_set_completion (GTK_ENTRY(m_textbox.gobj()), completion);
+  gtk_entry_set_placeholder_text(GTK_ENTRY(m_textbox.gobj()), "Search Template");
 
   completion_model = this->populateCompletion();
   gtk_entry_completion_set_model(completion, completion_model);
