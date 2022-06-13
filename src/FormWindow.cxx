@@ -40,8 +40,6 @@ void FormWindow::OnButtonClicked() {
   gchar* title = (string) m_entry->get_text().c_str();
   gchar* content = get_text_of_textview(m_textview->gobj());
 
-  printf("%s, %s\n", title, content);
-
   if (strlen(title) > 0 && strlen(content) > 0) {
     create_template(title, content);
   }
