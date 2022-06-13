@@ -82,7 +82,7 @@ bool MainWindow::onKeyPress(GdkEventKey* event) {
   if (event->keyval == GDK_KEY_Return && 
       strcmp(m_textbox.get_text().c_str(), "(+) Add new template") == 0) {
     m_formwindow = new FormWindow;
-    
+
     m_textbox.set_text("");
     Gtk::Window::hide();
   } else {

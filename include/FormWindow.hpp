@@ -27,6 +27,7 @@ class FormWindow : public Gtk::Window {
     Gtk::TextView* m_textview;
     Gtk::Button* m_button;
     Gtk::Entry* m_entry;
+    Gtk::Window* window = this;
 };
 
 #endif

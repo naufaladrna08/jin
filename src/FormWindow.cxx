@@ -16,7 +16,6 @@ FormWindow::FormWindow() {
     return;
   }
 
-  Gtk::Window* window = this;
   builder->get_widget("window", window);
 
   if (window) {
@@ -43,6 +42,7 @@ void FormWindow::OnButtonClicked() {
   if (strlen(title) > 0 && strlen(content) > 0) {
     create_template(title, content);
   }
-
-  this->hide();
+  
+  window->hide();
+  delete window;
 }
