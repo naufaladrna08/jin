@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.38.2 -->
+<interface>
+  <requires lib="gtk+" version="3.24"/>
+  <object class="GtkWindow" id="window">
+    <property name="can-focus">False</property>
+    <property name="default-width">640</property>
+    <property name="default-height">480</property>
+    <child>
+      <object class="GtkBox">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="GtkEntry" id="title">
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="max-length">255</property>
+            <property name="placeholder-text" translatable="yes">Create template title</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkTextView" id="content">
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="pixels-above-lines">2</property>
+            <property name="pixels-below-lines">2</property>
+            <property name="left-margin">4</property>
+            <property name="right-margin">4</property>
+            <property name="top-margin">4</property>
+            <property name="bottom-margin">4</property>
+            <property name="indent">2</property>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="button">
+            <property name="label" translatable="yes">Create Template</property>
+            <property name="name">Create</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">True</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">2</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>
