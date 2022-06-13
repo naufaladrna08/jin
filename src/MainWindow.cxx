@@ -67,8 +67,6 @@ GtkTreeModel* MainWindow::populateCompletion() {
       i++;
     }
 
-    printf("temp: %s\n", tmp);
-
 		gtk_list_store_append(store, &iter);
     gtk_list_store_set(store, &iter, COL_NAME, tmp, -1);
 		c = c->next;
@@ -82,9 +80,8 @@ GtkTreeModel* MainWindow::populateCompletion() {
 
 bool MainWindow::onKeyPress(GdkEventKey* event) {
   if (strcmp(m_textbox.get_text().c_str(), "(+) Add new template") == 0) {
-    // TODO
-    // m_createTemplate = new CreateTemplateWindow;
-    // m_createTemplate->show();
+    // m_formwindow = new FormWindow;
+    // m_formwindow->show();
   } else {
     if (event->keyval == GDK_KEY_Return) {
       cstring filecontent = open(strdup(m_textbox.get_text().c_str()));
