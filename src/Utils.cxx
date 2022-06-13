@@ -60,9 +60,10 @@ cstring open(char* name) {
 void create_template(string title, string content) {
   string PATH = (string) get_template_directory();
   strcat(PATH, title);
-  
+  strcat(PATH, ".templ");
+
   FILE *fptr;
-  fptr = fopen(PATH, "w");
+  fptr = fopen(PATH, "w+");
   fputs(content, fptr);
 
   fclose(fptr);
