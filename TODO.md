@@ -6,3 +6,6 @@ Release version v0.1
 - Improve Search Algorithm
 - Add setting window 
 - Add configuration
+- System Tray Icon 
+
+Probably due July 7th
