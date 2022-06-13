@@ -23,10 +23,10 @@ class FormWindow : public Gtk::Window {
     ~FormWindow();
 
   protected:
-    Gtk::VBox m_vbox;
-    Gtk::Entry m_title;
-    Gtk::TextView m_textview;
-    Gtk::Button m_button;
+    void OnButtonClicked();
+    Gtk::TextView* m_textview;
+    Gtk::Button* m_button;
+    Gtk::Entry* m_entry;
 };
 
 #endif

@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <Utils.h>
 #include <Common.h>
+#include <FormWindow.hpp>
 
 /* Load X11 Linux */
 #include <X11/Xlib.h>
@@ -34,6 +35,7 @@ class MainWindow : public Gtk::Window {
     void shortcutHandler(const char *keystring, void *user_data);
     virtual bool onDraw(const Cairo::RefPtr<Cairo::Context>& ctx);
     void onScreenChanged(const Glib::RefPtr<Gdk::Screen>& previous_screen);
+    FormWindow* m_formwindow;
 
     bool _SUPPORTS_ALPHA = false;
     

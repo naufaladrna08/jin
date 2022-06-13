@@ -79,9 +79,12 @@ GtkTreeModel* MainWindow::populateCompletion() {
 }
 
 bool MainWindow::onKeyPress(GdkEventKey* event) {
-  if (strcmp(m_textbox.get_text().c_str(), "(+) Add new template") == 0) {
-    // m_formwindow = new FormWindow;
-    // m_formwindow->show();
+  if (event->keyval == GDK_KEY_Return && 
+      strcmp(m_textbox.get_text().c_str(), "(+) Add new template") == 0) {
+    m_formwindow = new FormWindow;
+    
+    m_textbox.set_text("");
+    Gtk::Window::hide();
   } else {
     if (event->keyval == GDK_KEY_Return) {
       cstring filecontent = open(strdup(m_textbox.get_text().c_str()));
