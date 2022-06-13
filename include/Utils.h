@@ -36,5 +36,6 @@ typedef const char* cstring;
 cstring get_template_directory();
 void ls_home();
 cstring open(char* name);
+void create_template(string title, string content);
 
 #endif

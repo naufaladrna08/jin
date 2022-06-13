@@ -56,3 +56,14 @@ cstring open(char* name) {
 
   return text;
 }
+
+void create_template(string title, string content) {
+  string PATH = (string) get_template_directory();
+  strcat(PATH, title);
+  
+  FILE *fptr;
+  fptr = fopen(PATH, "w");
+  fputs(content, fptr);
+
+  fclose(fptr);
+}
