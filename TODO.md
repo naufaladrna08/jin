@@ -1,6 +1,6 @@
 Release version v0.1
 
-- Add template form 
+- Add template form (done)
 - Add icons to lists 
 - Add icon to textbox
 - Improve Search Algorithm
