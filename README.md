@@ -5,8 +5,6 @@ templates of codes, links, etc. that can be used anytime.
 
 Ubuntu dependencies
 
-You must compile gtkmm first :V
-
 ``
-sudo apt install cmake build-essential 
+sudo apt install cmake build-essential libgtkmm-3.0-dev ninja-build -y
 ``

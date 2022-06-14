@@ -1,0 +1,9 @@
+.textbox {
+    padding: 8px;
+    font-size: 16pt;
+    border-radius: 8px;
+}
+
+treeview {
+    padding: 4px;
+}
