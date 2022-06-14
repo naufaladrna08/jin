@@ -1,6 +1,10 @@
 ### Jin
 
-Jin adalah aplikasi yang mungkin saya sendiri bingung bagaimana untuk 
-menjelaskannya. Jin dapat digunakan untuk membantu pekerjaan sehari-hari 
-dengan cara buat atau download template, argh bingung. Silahkan coba 
-sendiri saja :D.
+Jin is an application that can help you work faster. You can create or download
+templates of codes, links, etc. that can be used anytime. 
+
+Ubuntu dependencies
+
+``
+sudo apt install cmake build-essential libgtkmm-3.0-dev ninja-build -y
+``
