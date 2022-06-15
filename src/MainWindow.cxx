@@ -58,7 +58,8 @@ GtkTreeModel* MainWindow::populateCompletion() {
   GtkTreeIter iter;
 
   tfile_t c = root;
-	while (c != nullptr) {
+
+  while (c != nullptr) {
     char tmp[512] = {};
     int i = 0;
 
@@ -75,6 +76,7 @@ GtkTreeModel* MainWindow::populateCompletion() {
   gtk_list_store_append(store, &iter);
   gtk_list_store_set(store, &iter, COL_NAME, "(+) Add new template", -1);
 
+  tfile_clear(&root);
   return GTK_TREE_MODEL(store);
 }
 
@@ -160,4 +162,8 @@ void MainWindow::onScreenChanged(const Glib::RefPtr<Gdk::Screen>& previous_scree
 
 void MainWindow::setVisual(Glib::RefPtr<Gdk::Visual> visual) {
   gtk_widget_set_visual(GTK_WIDGET(gobj()), visual->gobj());
+}
+
+void MainWindow::resetCompletion() {
+  this->populateCompletion();
 }

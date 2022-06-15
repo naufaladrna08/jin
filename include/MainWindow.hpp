@@ -22,13 +22,15 @@ class MainWindow : public Gtk::Window {
   public:
     MainWindow();
     virtual ~MainWindow();
+
     void setVisual(Glib::RefPtr<Gdk::Visual> visual);
+    void resetCompletion();
 
   protected:
     Gtk::Entry m_textbox;
-    GtkListStore *store;
-    GtkEntryCompletion *completion;
-    GtkTreeModel *completion_model;
+    GtkListStore* store;
+    GtkEntryCompletion* completion;
+    GtkTreeModel* completion_model;
     GtkTreeModel* populateCompletion();
 
     bool onKeyPress(GdkEventKey* event);

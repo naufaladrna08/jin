@@ -5,6 +5,7 @@
 MainWindow* winroot;
 
 void shortcutHandler(const char *keystring, void *user_data) {
+  winroot->resetCompletion();
   winroot->set_keep_above(true);
   winroot->show();
   winroot->set_focus_visible(true);
