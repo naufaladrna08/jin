@@ -32,3 +32,16 @@ void tfile_print(tfile_t* head) {
 		c = c->next;
 	}
 }
+
+void tfile_clear(tfile_t* head) { 
+	tfile_t c = *head;
+	tfile_t next;
+
+	while (c != NULL) {
+		next = c->next;
+		free(c);
+		c = next;
+	}
+
+	*head = NULL;
+}
