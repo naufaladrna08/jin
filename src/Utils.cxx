@@ -64,7 +64,7 @@ void create_template(string title, string content) {
 
   FILE *fptr;
   fptr = fopen(PATH, "w+");
-  fputs(content, fptr);
+  fprintf(fptr, "%s\n", content);
 
   fclose(fptr);
 }
