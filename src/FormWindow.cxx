@@ -36,11 +36,11 @@ FormWindow::~FormWindow() {
 }
 
 void FormWindow::OnButtonClicked() {
-  gchar* title = (string) m_entry->get_text().c_str();
-  gchar* content = get_text_of_textview(m_textview->gobj());
-
-  if (strlen(title) > 0 && strlen(content) > 0) {
-    create_template(title, content);
+  if (m_entry->get_text_length() > 3) {
+    create_template(
+      (string) m_entry->get_text().c_str(),       // Title 
+      get_text_of_textview(m_textview->gobj())    // Content
+    );
   }
   
   window->hide();
