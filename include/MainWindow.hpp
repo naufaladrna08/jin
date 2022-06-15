@@ -33,7 +33,12 @@ class MainWindow : public Gtk::Window {
     GtkTreeModel* completion_model;
     GtkTreeModel* populateCompletion();
 
+    Glib::RefPtr<Gtk::EntryCompletion> m_completion;
+    Glib::RefPtr<Gtk::TreeModel> m_model;
+    // void set_match_func(const Gtk::EntryCompletion::SlotMatch &slot)
     bool onKeyPress(GdkEventKey* event);
+    bool on_match(const Glib::ustring& key, const Gtk::TreeModel::const_iterator& iter);
+    // static bool on_match(const Glib::ustring& key, const TreeModel::const_iterator& iter);
     void shortcutHandler(const char *keystring, void *user_data);
     virtual bool onDraw(const Cairo::RefPtr<Cairo::Context>& ctx);
     void onScreenChanged(const Glib::RefPtr<Gdk::Screen>& previous_screen);
