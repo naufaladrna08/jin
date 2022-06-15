@@ -8,4 +8,4 @@ Release version v0.1
 - Add configuration
 - System Tray Icon 
 
-Probably due July 7th
+Due 1st July
