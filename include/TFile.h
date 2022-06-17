@@ -20,6 +20,7 @@
 #ifndef TFILE_H
 #define TFILE_H
 #include <stdlib.h>
+#include <string.h>
 #include <stdio.h>
 #define nullptr NULL
 
@@ -36,5 +37,6 @@ typedef struct TFILE* tfile_t;
 void tfile_append(tfile_t* head, string data);
 void tfile_print(tfile_t* head);
 void tfile_clear(tfile_t* head);
+void tfile_search(tfile_t* _head, cstring key);
 
 #endif

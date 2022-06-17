@@ -45,3 +45,17 @@ void tfile_clear(tfile_t* head) {
 
 	*head = NULL;
 }
+
+extern tfile_t result;
+void tfile_search(tfile_t* _head, cstring key) {
+	tfile_t c = *_head;
+
+	while (c != NULL) {
+		if (strstr(c->data, key) != NULL) {
+			printf("result: %s\n", c->data);
+			tfile_append(&result, c->data);
+		} 
+			
+		c = c->next;
+	}
+}
