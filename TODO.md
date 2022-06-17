@@ -9,4 +9,3 @@ Release version v0.1
 - System Tray Icon 
 
 Due 1st July
-I guess no code for to day
