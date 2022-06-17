@@ -1,5 +1,12 @@
 #include <Utils.h>
+
+/*
+ * i dont know how to this properly, but it seems to work.
+ * root is meant to be root of all files and result is all
+ * files to be displayed in the completion.
+ */
 tfile_t root = nullptr;
+tfile_t result = nullptr;
 
 cstring get_template_directory() {
   /* Getting home directory */
@@ -39,17 +46,22 @@ cstring open(char* name) {
   long    numbytes;
     
   textfile = fopen(HOME, "r");
-  if(textfile == NULL)
-    exit(1);
-    
+
+  if (textfile == NULL) {
+    printf("File not found\n");
+    return NULL;
+  }
+
   fseek(textfile, 0L, SEEK_END);
   numbytes = ftell(textfile);
   fseek(textfile, 0L, SEEK_SET);  
 
   text = (char*) calloc(numbytes, sizeof(char));   
   
-  if (text == NULL)
-    exit(1);
+  if (text == NULL) {
+    printf("Empty template selected\n");
+    return NULL;
+  }
 
   fread(text, sizeof(char), numbytes, textfile);
   fclose(textfile);
