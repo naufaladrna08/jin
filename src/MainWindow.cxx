@@ -22,18 +22,8 @@ MainWindow::MainWindow() {
   /* Load Stylesheet (CSS) */
   this->LoadStylesheet();
 
-  m_completion = Gtk::EntryCompletion::create();
-  completion_model = this->populateCompletion();
-
-  m_model = Glib::wrap(completion_model);
-  m_completion->set_model(m_model);
-  m_completion->set_text_column(0);
-  m_completion->set_minimum_key_length(0);
-  m_completion->set_popup_completion(true);
-  m_completion->set_match_func(sigc::mem_fun(*this, &MainWindow::on_match));
-  
-  gtk_entry_set_completion(GTK_ENTRY(m_textbox.gobj()), m_completion->gobj());
-  gtk_entry_set_placeholder_text(GTK_ENTRY(m_textbox.gobj()), "Search Template");
+  /* Initialize completion */
+  ActivateCompletion(true);
 
   /* Set window's size */
   Gtk::Window::set_size_request(m_screenw / 3, 32);
@@ -56,10 +46,33 @@ MainWindow::~MainWindow() {
 
 }
 
-GtkTreeModel* MainWindow::populateCompletion() {
+void MainWindow::ActivateCompletion(bool init) {
+  m_completion = Gtk::EntryCompletion::create();
+  
+  if (init) {
+    completion_model = this->populateCompletion(true);
+  } else {
+    completion_model = this->populateCompletion(false);
+  }
+
+  m_model = Glib::wrap(completion_model);
+  m_completion->set_model(m_model);
+  m_completion->set_text_column(0);
+  m_completion->set_minimum_key_length(0);
+  m_completion->set_popup_completion(true);
+  // m_completion->set_match_func(sigc::mem_fun(*this, &MainWindow::on_match));
+
+  gtk_entry_set_completion(GTK_ENTRY(m_textbox.gobj()), m_completion->gobj());
+  gtk_entry_set_placeholder_text(GTK_ENTRY(m_textbox.gobj()), "Search Template");
+}
+
+GtkTreeModel* MainWindow::populateCompletion(bool init) {
   ls_home();
   store = gtk_list_store_new(1, G_TYPE_STRING);
   GtkTreeIter iter;
+
+  // tfile_clear(&result);
+  // result = root;
 
   tfile_t c = root;
 
@@ -86,7 +99,7 @@ GtkTreeModel* MainWindow::populateCompletion() {
 
 bool MainWindow::onKeyPress(GdkEventKey* event) {
   if (event->keyval == GDK_KEY_Return && 
-      strcmp(m_textbox.get_text().c_str(), "(+) Add new template") == 0) {
+    strcmp(m_textbox.get_text().c_str(), "(+) Add new template") == 0) {
     m_formwindow = new FormWindow;
 
     m_textbox.set_text("");
@@ -169,14 +182,9 @@ void MainWindow::setVisual(Glib::RefPtr<Gdk::Visual> visual) {
 }
 
 void MainWindow::resetCompletion() {
-  this->populateCompletion();
+  this->ActivateCompletion(false);
 }
 
 bool MainWindow::on_match(const Glib::ustring& key, const Gtk::TreeModel::const_iterator& iter) {
-  GtkTreeIter *iterx = (GtkTreeIter*) iter->gobj();
-  gchar* item;
-  gtk_tree_model_get(m_model->gobj(), iterx, 0, &item, -1);
-  gboolean ans = (atoi(key.c_str()) % 2 == atoi(item) % 2);
-
-  return ans;
+  return true; // Always show
 }

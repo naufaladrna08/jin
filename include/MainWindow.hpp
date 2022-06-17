@@ -12,6 +12,7 @@
 #include <keybinder-3.0/keybinder.h>
 
 extern tfile_t root;
+extern tfile_t result;
 
 enum {
   COL_NAME = 0,
@@ -31,14 +32,15 @@ class MainWindow : public Gtk::Window {
     GtkListStore* store;
     GtkEntryCompletion* completion;
     GtkTreeModel* completion_model;
-    GtkTreeModel* populateCompletion();
+    GtkTreeModel* populateCompletion(bool init);
 
     Glib::RefPtr<Gtk::EntryCompletion> m_completion;
     Glib::RefPtr<Gtk::TreeModel> m_model;
     // void set_match_func(const Gtk::EntryCompletion::SlotMatch &slot)
     bool onKeyPress(GdkEventKey* event);
+    void ActivateCompletion(bool init);
     bool on_match(const Glib::ustring& key, const Gtk::TreeModel::const_iterator& iter);
-    // static bool on_match(const Glib::ustring& key, const TreeModel::const_iterator& iter);
+    
     void shortcutHandler(const char *keystring, void *user_data);
     virtual bool onDraw(const Cairo::RefPtr<Cairo::Context>& ctx);
     void onScreenChanged(const Glib::RefPtr<Gdk::Screen>& previous_screen);
