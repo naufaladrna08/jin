@@ -15,8 +15,9 @@ extern tfile_t root;
 extern tfile_t result;
 
 enum {
-  COL_NAME = 0,
-  NUM_COLS
+  COL_ICON = 0,
+  COL_NAME,
+  COL_NUM
 };
 
 class MainWindow : public Gtk::Window {

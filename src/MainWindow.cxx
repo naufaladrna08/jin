@@ -57,10 +57,14 @@ void MainWindow::ActivateCompletion(bool init) {
 
   m_model = Glib::wrap(completion_model);
   m_completion->set_model(m_model);
-  m_completion->set_text_column(0);
+  m_completion->set_text_column(1);
   m_completion->set_minimum_key_length(0);
   m_completion->set_popup_completion(true);
   // m_completion->set_match_func(sigc::mem_fun(*this, &MainWindow::on_match));
+  
+  Gtk::CellRendererPixbuf pixbuf;
+  m_completion->pack_start(pixbuf, true);
+  m_completion->add_attribute(pixbuf, "icon_name", 0);
 
   gtk_entry_set_completion(GTK_ENTRY(m_textbox.gobj()), m_completion->gobj());
   gtk_entry_set_placeholder_text(GTK_ENTRY(m_textbox.gobj()), "Search Template");
@@ -68,13 +72,11 @@ void MainWindow::ActivateCompletion(bool init) {
 
 GtkTreeModel* MainWindow::populateCompletion(bool init) {
   ls_home();
-  store = gtk_list_store_new(1, G_TYPE_STRING);
+  store = gtk_list_store_new(COL_NUM, G_TYPE_STRING, G_TYPE_STRING);
   GtkTreeIter iter;
 
-  // tfile_clear(&result);
-  // result = root;
-
   tfile_t c = root;
+  string icon_name = "edit-copy";
 
   while (c != nullptr) {
     char tmp[512] = {};
@@ -86,12 +88,17 @@ GtkTreeModel* MainWindow::populateCompletion(bool init) {
     }
 
 		gtk_list_store_append(store, &iter);
-    gtk_list_store_set(store, &iter, COL_NAME, tmp, -1);
+    gtk_list_store_set(
+      store, &iter,
+      COL_ICON, icon_name, 
+      COL_NAME, tmp, 
+      -1
+    );
 		c = c->next;
 	}
 
   gtk_list_store_append(store, &iter);
-  gtk_list_store_set(store, &iter, COL_NAME, "(+) Add new template", -1);
+  gtk_list_store_set(store, &iter, -1, COL_ICON, icon_name, COL_NAME, "(+) Add new template", -1);
 
   tfile_clear(&root);
   return GTK_TREE_MODEL(store);
