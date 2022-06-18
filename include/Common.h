@@ -27,5 +27,6 @@
 #define CONFIG_NAME name "jin.cfg" // Later
 #define DEFAULT_CSS "default.css"
 #define EXTENSION ".tmpl"
+#define MAX_DISPLAYED_ITEM 10
 
 #endif
