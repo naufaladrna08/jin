@@ -29,7 +29,8 @@ void ls_home() {
 
   if (d) {
     while ((dir = readdir(d)) != NULL) {
-      tfile_append(&root, dir->d_name);
+      if (dir->d_name[0] != '.')
+        tfile_append(&root, dir->d_name);
     }
 
     closedir(d);
