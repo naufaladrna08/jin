@@ -78,10 +78,13 @@ GtkTreeModel* MainWindow::populateCompletion(bool init) {
   tfile_t c = root;
   string icon_name = "edit-copy";
 
-  while (c != nullptr) {
+
+  size_t iterator = 0;
+  while (c != nullptr && iterator < MAX_DISPLAYED_ITEM) {
     char tmp[512] = {};
     int i = 0;
 
+    /* Before extension */
     while (c->data[i] != '.') {
       tmp[i] = c->data[i];
       i++;
@@ -94,11 +97,13 @@ GtkTreeModel* MainWindow::populateCompletion(bool init) {
       COL_NAME, tmp, 
       -1
     );
+
 		c = c->next;
+    iterator++;
 	}
 
   gtk_list_store_append(store, &iter);
-  gtk_list_store_set(store, &iter, -1, COL_ICON, icon_name, COL_NAME, "(+) Add new template", -1);
+  gtk_list_store_set(store, &iter, COL_ICON, icon_name, COL_NAME, "(+) Add new template", -1);
 
   tfile_clear(&root);
   return GTK_TREE_MODEL(store);
