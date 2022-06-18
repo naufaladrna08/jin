@@ -34,8 +34,9 @@ MainWindow::MainWindow() {
   m_textbox.show();
   m_textbox.grab_focus();
 
-  // m_button.signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::OnButtonPressed));
   m_textbox.signal_key_press_event().connect(sigc::mem_fun(*this, &MainWindow::onKeyPress), false);
+  m_textbox.signal_changed().connect(sigc::mem_fun(*this, &MainWindow::onEntryChanged), false);
+
   signal_draw().connect(sigc::mem_fun(*this, &MainWindow::onDraw));
   signal_screen_changed().connect(sigc::mem_fun(*this, &MainWindow::onScreenChanged));
 
@@ -199,4 +200,13 @@ void MainWindow::resetCompletion() {
 
 bool MainWindow::on_match(const Glib::ustring& key, const Gtk::TreeModel::const_iterator& iter) {
   return true; // Always show
+}
+
+void MainWindow::onEntryChanged() {
+  if (strcmp(m_textbox.get_text().c_str(), "(+) Add new template") == 0) {
+    m_formwindow = new FormWindow;
+
+    m_textbox.set_text("");
+    Gtk::Window::hide();
+  }
 }

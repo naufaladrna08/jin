@@ -39,6 +39,7 @@ class MainWindow : public Gtk::Window {
     Glib::RefPtr<Gtk::TreeModel> m_model;
     // void set_match_func(const Gtk::EntryCompletion::SlotMatch &slot)
     bool onKeyPress(GdkEventKey* event);
+    void onEntryChanged();
     void ActivateCompletion(bool init);
     bool on_match(const Glib::ustring& key, const Gtk::TreeModel::const_iterator& iter);
     
