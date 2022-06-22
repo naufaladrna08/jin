@@ -30,11 +30,13 @@
 #include <sys/types.h>
 #include <pwd.h>
 #include <TFile.h>
+#include <Config.h>
 
 #include <gtk/gtk.h>
 
 typedef const char* cstring;
 
+string get_home_directory();
 cstring get_template_directory();
 void ls_home();
 cstring open(char* name);

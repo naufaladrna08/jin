@@ -8,24 +8,33 @@
 tfile_t root = nullptr;
 tfile_t result = nullptr;
 
+string get_home_directory() {
+  char *homedir;
+
+  if ((homedir = getenv("HOME")) == NULL) {
+    homedir = getpwuid(getuid())->pw_dir;
+  }
+
+  return homedir;
+}
+
 cstring get_template_directory() {
   /* Getting home directory */
-  struct passwd* pw = getpwuid(getuid());;
-  char* HOME = pw->pw_dir;
+  char* PATH = get_home_directory();
 
   /* Concat HOME with templates folder */
-  strcat(HOME, "/.jin-templates/");
+  strcat(PATH, "/.jin-templates/");
 
-  return (cstring) HOME;
+  return (cstring) PATH;
 }
 
 void ls_home() {
-  cstring HOME = get_template_directory();
+  cstring PATH = get_template_directory();
 
   /* Read! */
   DIR* d;
   struct dirent* dir;
-  d = opendir(HOME);
+  d = opendir(PATH);
 
   if (d) {
     while ((dir = readdir(d)) != NULL) {
@@ -38,15 +47,15 @@ void ls_home() {
 }
 
 cstring open(char* name) {
-  char* HOME = (char*) get_template_directory();
-  strcat(HOME, name);
-  strcat(HOME, ".tmpl");
+  char* PATH = (char*) get_template_directory();
+  strcat(PATH, name);
+  strcat(PATH, ".tmpl");
 
   FILE    *textfile;
   char    *text;
   long    numbytes;
     
-  textfile = fopen(HOME, "r");
+  textfile = fopen(PATH, "r");
 
   if (textfile == NULL) {
     printf("File not found\n");
