@@ -227,5 +227,6 @@ void MainWindow::onEntryChanged() {
     m_settingswindow = new SettingsWindow;
     
     m_textbox.set_text("");
+    Gtk::Window::hide();
   }
 }
