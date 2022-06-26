@@ -3,6 +3,7 @@
 <interface>
   <requires lib="gtk+" version="3.24"/>
   <object class="GtkWindow" id="window">
+    <property name="width-request">320</property>
     <property name="can-focus">False</property>
     <child>
       <object class="GtkBox">
@@ -26,12 +27,16 @@
         </child>
         <child>
           <object class="GtkEntry" id="max_displayed_item">
+            <property name="width-request">320</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
+            <property name="margin-left">8</property>
+            <property name="margin-right">8</property>
           </object>
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
+            <property name="padding">8</property>
             <property name="position">1</property>
           </packing>
         </child>
@@ -52,12 +57,16 @@
         </child>
         <child>
           <object class="GtkEntry">
+            <property name="width-request">320</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
+            <property name="margin-left">8</property>
+            <property name="margin-right">8</property>
           </object>
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
+            <property name="padding">8</property>
             <property name="position">3</property>
           </packing>
         </child>
@@ -82,6 +91,8 @@
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
+                <property name="padding">8</property>
+                <property name="pack-type">end</property>
                 <property name="position">2</property>
               </packing>
             </child>
@@ -89,6 +100,7 @@
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
+            <property name="padding">8</property>
             <property name="position">4</property>
           </packing>
         </child>
