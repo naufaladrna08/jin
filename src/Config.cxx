@@ -1,8 +1,11 @@
 #include <Config.h>
 
 string get_config_string(string config_name) {
-  string path = get_home_directory();
+  // string path = (string) get_home_directory
+  string path = (string) malloc(strlen(get_home_directory()) + 1024); 
+  strncpy(path, get_home_directory(), strlen(get_home_directory()) + 1);
   string result = "\0";
+  
   FILE* fptr;
 
   strcat(path, "/");
@@ -28,6 +31,7 @@ string get_config_string(string config_name) {
   }
 
   fclose(fptr);
+  free(path);
   return result;
 }
 
