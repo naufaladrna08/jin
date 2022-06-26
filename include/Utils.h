@@ -36,7 +36,7 @@
 
 typedef const char* cstring;
 
-string get_home_directory();
+cstring get_home_directory();
 cstring get_template_directory();
 void ls_home();
 cstring open(char* name);
