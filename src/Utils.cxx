@@ -9,7 +9,7 @@ tfile_t root = nullptr;
 tfile_t result = nullptr;
 
 string get_home_directory() {
-  char *homedir;
+  char *homedir = (string) malloc(256);
 
   if ((homedir = getenv("HOME")) == NULL) {
     homedir = getpwuid(getuid())->pw_dir;
