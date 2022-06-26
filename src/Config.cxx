@@ -1,5 +1,17 @@
 #include <Config.h>
 
+/**
+ * @brief Initialize config
+ * 
+ * we'll put this on main.c, when the program is started.
+ * basically it will check if config file is available or
+ * not. if yes, then yes. if no, then copy config to jin
+ * directory.  
+ */
+void init_config() {
+
+}
+
 string get_config_string(string config_name) {
   // string path = (string) get_home_directory
   string path = (string) malloc(strlen(get_home_directory()) + 1024); 

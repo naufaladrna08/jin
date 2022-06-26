@@ -9,6 +9,7 @@
 typedef char* string;
 typedef const char* cstring;
 
+void init_config();
 string get_config_string(string config_name);
 int get_config_int(string config_name);
 
