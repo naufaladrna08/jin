@@ -32,5 +32,5 @@ string get_config_string(string config_name) {
 }
 
 int get_config_int(string config_name) { 
-  return 1;
+  return atoi(get_config_string(config_name));
 }
