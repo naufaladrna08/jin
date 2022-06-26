@@ -6,6 +6,7 @@
 #include <Utils.h>
 #include <Common.h>
 #include <FormWindow.hpp>
+#include <Config.h>
 
 /* Load X11 Linux */
 #include <X11/Xlib.h>
