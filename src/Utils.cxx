@@ -14,7 +14,6 @@ cstring get_home_directory() {
   if ((homedir = getenv("HOME")) == NULL) {
     homedir = getpwuid(getuid())->pw_dir;
   }
-  printf("HOME: %s\n", homedir);
 
   return homedir;
 }
