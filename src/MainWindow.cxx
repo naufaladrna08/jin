@@ -22,6 +22,9 @@ MainWindow::MainWindow() {
   /* Load Stylesheet (CSS) */
   this->LoadStylesheet();
 
+  /* Initialize Configuration */
+  init_config();
+
   /* Initialize completion */
   ActivateCompletion(true);
 

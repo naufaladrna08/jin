@@ -9,7 +9,38 @@
  * directory.  
  */
 void init_config() {
+  char ch; 
+  FILE *src, *dst;
 
+  string dst_path = (string) malloc(strlen(get_home_directory()) + 1024); 
+  strncpy(dst_path, get_home_directory(), strlen(get_home_directory()) + 1);
+  strcat(dst_path, "/");
+  strcat(dst_path, CONFIG_NAME);
+  dst = fopen(dst_path, "r");
+
+  if (dst == NULL) {
+    /* Copy file */
+    string src_path = "extra/jin.cfg";
+    src = fopen(src_path, "r");
+
+    if (src != NULL) {
+      /* Copy src content to dst_path */
+      dst = fopen(dst_path, "w");
+
+      while ((ch = fgetc(src)) != EOF)
+        fputc(ch, dst);
+      
+      printf("Config file has been created.\n");
+      
+      fclose(src);
+      fclose(dst);
+    }
+  } else {
+    printf("Configuration is found: %s\n", dst_path);
+    fclose(dst);
+  }
+
+  free(dst_path);
 }
 
 string get_config_string(string config_name) {
