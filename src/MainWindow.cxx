@@ -6,10 +6,8 @@
 MainWindow::MainWindow() {
   set_border_width(1);
 
-  // printf("%s\n", get_config_string("test"));
-
   /* Get screen resolution in Linux, X11. */
- GdkRectangle workarea = {0};
+  GdkRectangle workarea = {0};
   gdk_monitor_get_workarea(
     gdk_display_get_primary_monitor(gdk_display_get_default()),
     &workarea);
@@ -74,6 +72,8 @@ void MainWindow::ActivateCompletion(bool init) {
 }
 
 GtkTreeModel* MainWindow::populateCompletion(bool init) {
+  int max = get_config_int("max_displayed_item");
+  
   ls_home();
   store = gtk_list_store_new(COL_NUM, G_TYPE_STRING, G_TYPE_STRING);
   GtkTreeIter iter;
@@ -82,7 +82,7 @@ GtkTreeModel* MainWindow::populateCompletion(bool init) {
   string icon_name = "edit-copy";
 
   size_t iterator = 0;
-  while (c != nullptr && iterator < MAX_DISPLAYED_ITEM) {
+  while (c != nullptr && iterator < max) {
     char tmp[512] = {};
     int i = 0;
 
@@ -139,9 +139,10 @@ bool MainWindow::onKeyPress(GdkEventKey* event) {
 
 void MainWindow::LoadStylesheet() {
   auto css = Gtk::CssProvider::create();
-  string PATH = get_home_directory();
-  
+  string PATH = (string) malloc(512);
+
   /* Getting default css */
+  strcpy(PATH, get_home_directory());
   strcat(PATH, "/");
   strcat(PATH, CONFIG_PATH);
   strcat(PATH, DEFAULT_CSS);
