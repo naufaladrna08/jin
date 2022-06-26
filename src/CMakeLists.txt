@@ -12,6 +12,7 @@ add_executable(jin
   Utils.cxx
   TFile.cxx
   FormWindow.cxx
+  SettingsWindow.cxx
   Config.cxx
 )
 

@@ -109,6 +109,8 @@ GtkTreeModel* MainWindow::populateCompletion(bool init) {
 
   gtk_list_store_append(store, &iter);
   gtk_list_store_set(store, &iter, COL_ICON, icon_name, COL_NAME, "(+) Add new template", -1);
+  gtk_list_store_append(store, &iter);
+  gtk_list_store_set(store, &iter, COL_ICON, icon_name, COL_NAME, "Open Settings", -1);
 
   tfile_clear(&root);
   return GTK_TREE_MODEL(store);
@@ -118,6 +120,12 @@ bool MainWindow::onKeyPress(GdkEventKey* event) {
   if (event->keyval == GDK_KEY_Return && 
     strcmp(m_textbox.get_text().c_str(), "(+) Add new template") == 0) {
     m_formwindow = new FormWindow;
+
+    m_textbox.set_text("");
+    Gtk::Window::hide();
+  } else if (event->keyval == GDK_KEY_Return && 
+             strcmp(m_textbox.get_text().c_str(), "Open Settings") == 0) {
+    m_settingswindow = new SettingsWindow;
 
     m_textbox.set_text("");
     Gtk::Window::hide();
@@ -215,5 +223,9 @@ void MainWindow::onEntryChanged() {
 
     m_textbox.set_text("");
     Gtk::Window::hide();
+  } else if (strcmp(m_textbox.get_text().c_str(), "Open Settings") == 0) {
+    m_settingswindow = new SettingsWindow;
+    
+    m_textbox.set_text("");
   }
 }

@@ -6,6 +6,7 @@
 #include <Utils.h>
 #include <Common.h>
 #include <FormWindow.hpp>
+#include <SettingsWindow.hpp>
 #include <Config.h>
 
 /* Load X11 Linux */
@@ -48,6 +49,7 @@ class MainWindow : public Gtk::Window {
     virtual bool onDraw(const Cairo::RefPtr<Cairo::Context>& ctx);
     void onScreenChanged(const Glib::RefPtr<Gdk::Screen>& previous_screen);
     FormWindow* m_formwindow;
+    SettingsWindow* m_settingswindow;
 
     bool _SUPPORTS_ALPHA = false;
     
