@@ -73,7 +73,7 @@ void MainWindow::ActivateCompletion(bool init) {
 
 GtkTreeModel* MainWindow::populateCompletion(bool init) {
   int max = get_config_int("max_displayed_item");
-  
+
   ls_home();
   store = gtk_list_store_new(COL_NUM, G_TYPE_STRING, G_TYPE_STRING);
   GtkTreeIter iter;
@@ -139,10 +139,10 @@ bool MainWindow::onKeyPress(GdkEventKey* event) {
 
 void MainWindow::LoadStylesheet() {
   auto css = Gtk::CssProvider::create();
-  string PATH = (string) malloc(512);
+  string PATH = (string) malloc(strlen(get_home_directory()) + 1);
+  strcpy(PATH, get_home_directory());
 
   /* Getting default css */
-  strcpy(PATH, get_home_directory());
   strcat(PATH, "/");
   strcat(PATH, CONFIG_PATH);
   strcat(PATH, DEFAULT_CSS);
@@ -165,6 +165,8 @@ void MainWindow::LoadStylesheet() {
   Glib::RefPtr<Gtk::StyleContext> entryContext = m_textbox.get_style_context();
 
   entryContext->add_class("textbox");
+
+  free(PATH);
 }
 
 bool MainWindow::onDraw(const Cairo::RefPtr<Cairo::Context>& ctx) {

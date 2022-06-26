@@ -8,19 +8,21 @@
 tfile_t root = nullptr;
 tfile_t result = nullptr;
 
-string get_home_directory() {
-  char *homedir = (string) malloc(256);
+cstring get_home_directory() {
+  cstring homedir = (string) malloc(256);
 
   if ((homedir = getenv("HOME")) == NULL) {
     homedir = getpwuid(getuid())->pw_dir;
   }
+  printf("HOME: %s\n", homedir);
 
   return homedir;
 }
 
 cstring get_template_directory() {
   /* Getting home directory */
-  char* PATH = get_home_directory();
+  string PATH = (string) malloc(strlen(get_home_directory()) + 1024); 
+  strncpy(PATH, get_home_directory(), strlen(get_home_directory()) + 1);
 
   /* Concat HOME with templates folder */
   strcat(PATH, "/.jin-templates/");
@@ -43,6 +45,9 @@ void ls_home() {
     }
 
     closedir(d);
+  } else {
+    printf("Failed to load templates: %s\n", PATH);
+    exit(1);
   }
 }
 
