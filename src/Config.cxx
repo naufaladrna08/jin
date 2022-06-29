@@ -20,7 +20,7 @@ void init_config() {
 
   if (dst == NULL) {
     /* Copy file */
-    string src_path = "extra/jin.cfg";
+    string src_path = "extra/jin.conf";
     src = fopen(src_path, "r");
 
     if (src != NULL) {
