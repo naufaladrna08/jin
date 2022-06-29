@@ -20,7 +20,7 @@
 #define KEY_SHORTCUT "<Ctrl>D"
 
 #define CONFIG_PATH ".config/jin/"
-#define CONFIG_NAME ".config/jin/jin.cfg"
+#define CONFIG_NAME ".config/jin/jin.conf"
 #define DEFAULT_CSS "default.css"
 #define EXTENSION ".tmpl"
 #define MAX_DISPLAYED_ITEM 10
