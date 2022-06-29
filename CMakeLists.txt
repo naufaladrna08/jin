@@ -5,3 +5,10 @@ find_package(PkgConfig)
 pkg_check_modules(GTKMM gtkmm-3.0)
 pkg_check_modules(KEYBINDER keybinder-3.0)
 add_subdirectory(src) 
+
+file(GLOB EXTRA_FILES
+  "./etc/assets/default.css"
+  "./etc/config/jin.conf"
+)
+
+file(COPY ${EXTRA_FILES} DESTINATION ${CMAKE_BINARY_DIR}/src/extra)
