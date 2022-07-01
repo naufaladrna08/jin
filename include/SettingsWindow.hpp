@@ -28,6 +28,7 @@ class SettingsWindow : public Gtk::Window {
     Gtk::TextView* m_textview;
     Gtk::Button* m_button;
     Gtk::Entry* m_max_displayed_item;
+    Gtk::Entry* m_shortcut;
     Gtk::Window* window = this;
 };
 

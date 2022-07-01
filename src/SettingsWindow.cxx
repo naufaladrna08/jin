@@ -21,9 +21,10 @@ SettingsWindow::SettingsWindow() {
   if (window) {
     // Gtk::Entry* entry = 0;
     builder->get_widget("max_displayed_item", m_max_displayed_item);
-    // builder->get_widget("content", m_textview);
+    builder->get_widget("key_binder", m_shortcut);
     // builder->get_widget("button", m_button);
     m_max_displayed_item->set_text(get_config_string("max_displayed_item"));
+    m_shortcut->set_text(get_config_string("key_shortcut"));
 
     // if (m_button)
     //   m_button->signal_clicked().connect(sigc::mem_fun(*this, &SettingsWindow::OnButtonClicked), false);
