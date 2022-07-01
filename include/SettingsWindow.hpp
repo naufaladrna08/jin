@@ -15,6 +15,7 @@
 #include <gtkmm.h>
 #include <stdio.h>
 #include <Utils.h>
+#include <Config.h>
 #include <Common.h>
 
 class SettingsWindow : public Gtk::Window {
@@ -26,7 +27,7 @@ class SettingsWindow : public Gtk::Window {
     void OnButtonClicked();
     Gtk::TextView* m_textview;
     Gtk::Button* m_button;
-    Gtk::Entry* m_entry;
+    Gtk::Entry* m_max_displayed_item;
     Gtk::Window* window = this;
 };
 
