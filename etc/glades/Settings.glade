@@ -56,7 +56,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkEntry">
+          <object class="GtkEntry" id="key_binder">
             <property name="width-request">320</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
