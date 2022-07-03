@@ -8,6 +8,8 @@
 #include <FormWindow.hpp>
 #include <SettingsWindow.hpp>
 #include <Config.h>
+#include <iostream>
+#include <vector>
 
 /* Load X11 Linux */
 #include <X11/Xlib.h>

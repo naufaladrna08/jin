@@ -76,41 +76,37 @@ void MainWindow::ActivateCompletion(bool init) {
 
 GtkTreeModel* MainWindow::populateCompletion(bool init) {
   int max = get_config_int("max_displayed_item");
-
-  ls_home();
+  std::vector<std::string> files = ls_home();
+  
   store = gtk_list_store_new(COL_NUM, G_TYPE_STRING, G_TYPE_STRING);
   GtkTreeIter iter;
-
-  tfile_t c = root;
-  string icon_name = "edit-copy";
+  std::string icon_name = "edit-copy";
 
   size_t iterator = 0;
-  while (c != nullptr && iterator < max) {
-    char tmp[512] = {};
-    int i = 0;
+  for (auto file : files) {
+    if (iterator < max) {
+      int i = 0;
 
-    /* Before extension */
-    while (c->data[i] != '.') {
-      tmp[i] = c->data[i];
-      i++;
+      /* Before extension */
+
+      gtk_list_store_append(store, &iter);
+      gtk_list_store_set(
+        store, &iter,
+        COL_ICON, icon_name.c_str(), 
+        COL_NAME, file.c_str(), 
+        -1
+      );
+
+      iterator++;
+    } else {
+      break;
     }
-
-		gtk_list_store_append(store, &iter);
-    gtk_list_store_set(
-      store, &iter,
-      COL_ICON, icon_name, 
-      COL_NAME, tmp, 
-      -1
-    );
-
-		c = c->next;
-    iterator++;
 	}
 
   gtk_list_store_append(store, &iter);
-  gtk_list_store_set(store, &iter, COL_ICON, icon_name, COL_NAME, "(+) Add new template", -1);
+  gtk_list_store_set(store, &iter, COL_ICON, icon_name.c_str(), COL_NAME, "(+) Add new template", -1);
   gtk_list_store_append(store, &iter);
-  gtk_list_store_set(store, &iter, COL_ICON, icon_name, COL_NAME, "Open Settings", -1);
+  gtk_list_store_set(store, &iter, COL_ICON, icon_name.c_str(), COL_NAME, "Open Settings", -1);
 
   tfile_clear(&root);
   return GTK_TREE_MODEL(store);
