@@ -46,16 +46,14 @@ void tfile_clear(tfile_t* head) {
 	*head = NULL;
 }
 
-extern tfile_t result;
-void tfile_search(tfile_t* _head, cstring key) {
-	tfile_t c = *_head;
+std::vector<std::string> tfile_search(std::vector<std::string>& ref, const char* key) {
+	std::vector<std::string> result;
 
-	while (c != NULL) {
-		if (strstr(c->data, key) != NULL) {
-			printf("result: %s\n", c->data);
-			tfile_append(&result, c->data);
+	for (auto file : ref) {
+		if (strstr(file.c_str(), key) != NULL) {
+			result.push_back(file);
 		} 
-			
-		c = c->next;
 	}
+
+	return result;
 }

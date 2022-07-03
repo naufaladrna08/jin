@@ -22,6 +22,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <iostream>
+#include <vector>
+#include <string>
 #define nullptr NULL
 
 typedef char* string;
@@ -37,6 +40,6 @@ typedef struct TFILE* tfile_t;
 void tfile_append(tfile_t* head, string data);
 void tfile_print(tfile_t* head);
 void tfile_clear(tfile_t* head);
-void tfile_search(tfile_t* _head, cstring key);
+std::vector<std::string> tfile_search(std::vector<std::string>& ref, const char* key);
 
 #endif
