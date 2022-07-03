@@ -8,24 +8,26 @@
  * not. if yes, then yes. if no, then copy config to jin
  * directory.  
  */
-void init_config() {
+void init_config_and_css() {
   char ch; 
   FILE *src, *dst;
 
-  string dst_path = (string) malloc(strlen(get_home_directory()) + 1024); 
-  strncpy(dst_path, get_home_directory(), strlen(get_home_directory()) + 1);
-  strcat(dst_path, "/");
-  strcat(dst_path, CONFIG_NAME);
-  dst = fopen(dst_path, "r");
+  /* Copy configurations */ 
+  std::string dst_path = get_home_directory();
+  dst_path += "/";
+  dst_path += CONFIG_NAME;
+
+  std::cout << dst_path << std::endl;
+  dst = fopen(dst_path.c_str(), "r");
 
   if (dst == NULL) {
     /* Copy file */
-    string src_path = "extra/jin.conf";
-    src = fopen(src_path, "r");
+    std::string src_path = "extra/jin.conf";
+    src = fopen(src_path.c_str(), "r");
 
     if (src != NULL) {
       /* Copy src content to dst_path */
-      dst = fopen(dst_path, "w");
+      dst = fopen(dst_path.c_str(), "w");
 
       while ((ch = fgetc(src)) != EOF)
         fputc(ch, dst);
@@ -36,25 +38,51 @@ void init_config() {
       fclose(dst);
     }
   } else {
-    printf("Configuration is found: %s\n", dst_path);
+    printf("Configuration is found: %s\n", dst_path.c_str());
     fclose(dst);
   }
 
-  free(dst_path);
+  /* Copy stylesheet */
+  dst_path.clear();
+  dst_path = get_home_directory();
+  dst_path += "/";
+  dst_path += CONFIG_PATH;
+  dst_path += DEFAULT_CSS;
+  dst = fopen(dst_path.c_str(), "r");
+  
+  if (dst == NULL) {
+    /* Copy file */
+    std::string src_path = "extra/default.css";
+    src = fopen(src_path.c_str(), "r");
+
+    if (src != NULL) {
+      /* Copy src content to dst_path */
+      dst = fopen(dst_path.c_str(), "w");
+
+      while ((ch = fgetc(src)) != EOF)
+        fputc(ch, dst);
+      
+      printf("CSS file has been created.\n");
+      
+      fclose(src);
+      fclose(dst);
+    }
+  } else {
+    printf("CSS file is found: %s\n", dst_path.c_str());
+    fclose(dst);
+  }
 }
 
-string get_config_string(string config_name) {
-  // string path = (string) get_home_directory
-  string path = (string) malloc(strlen(get_home_directory()) + 1024); 
-  strncpy(path, get_home_directory(), strlen(get_home_directory()) + 1);
-  string result = "\0";
+std::string get_config_string(std::string config_name) {
+  std::string result;
+  std::string path = get_home_directory();
   
   FILE* fptr;
 
-  strcat(path, "/");
-  strcat(path, CONFIG_NAME);
+  path += "/";
+  path += CONFIG_NAME;
 
-  fptr = fopen(path, "r");
+  fptr = fopen(path.c_str(), "r");
 
   if (fptr == NULL) {
     printf("Configuration file is not found\n");
@@ -65,7 +93,7 @@ string get_config_string(string config_name) {
   while (fgets(buffer, sizeof(buffer), fptr)) {
     string key = strtok(buffer, " = ");
 
-    if (strcmp(key, config_name) == 0) {
+    if (config_name.compare(key) == 0) {
       while (key != NULL) {
         result = key;
         key = strtok(NULL, " = ");
@@ -74,10 +102,9 @@ string get_config_string(string config_name) {
   }
 
   fclose(fptr);
-  free(path);
   return result;
 }
 
-int get_config_int(string config_name) { 
-  return atoi(get_config_string(config_name));
+int get_config_int(std::string config_name) { 
+  return stoi(get_config_string(config_name));
 }
