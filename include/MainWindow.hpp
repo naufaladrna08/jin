@@ -37,7 +37,7 @@ class MainWindow : public Gtk::Window {
     GtkListStore* store;
     GtkEntryCompletion* completion;
     GtkTreeModel* completion_model;
-    GtkTreeModel* populateCompletion(bool init);
+    GtkTreeModel* populateCompletion(std::string key);
 
     Glib::RefPtr<Gtk::EntryCompletion> m_completion;
     Glib::RefPtr<Gtk::TreeModel> m_model;

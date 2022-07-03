@@ -53,12 +53,7 @@ MainWindow::~MainWindow() {
 void MainWindow::ActivateCompletion(bool init) {
   m_completion = Gtk::EntryCompletion::create();
   
-  if (init) {
-    completion_model = this->populateCompletion(true);
-  } else {
-    completion_model = this->populateCompletion(false);
-  }
-
+  completion_model = this->populateCompletion("");
   m_model = Glib::wrap(completion_model);
   m_completion->set_model(m_model);
   m_completion->set_text_column(1);
@@ -74,15 +69,23 @@ void MainWindow::ActivateCompletion(bool init) {
   gtk_entry_set_placeholder_text(GTK_ENTRY(m_textbox.gobj()), "Search Template");
 }
 
-GtkTreeModel* MainWindow::populateCompletion(bool init) {
+GtkTreeModel* MainWindow::populateCompletion(std::string key) {
   int max = get_config_int("max_displayed_item");
-  std::vector<std::string> files = ls_home();
-  
+  std::vector<std::string> files;
+
+  if (key.compare("") == 0)
+    files = ls_home();
+  else {
+    std::vector<std::string> temp = ls_home();
+    files = tfile_search(temp, key.c_str());
+  }
+
   store = gtk_list_store_new(COL_NUM, G_TYPE_STRING, G_TYPE_STRING);
   GtkTreeIter iter;
   std::string icon_name = "edit-copy";
 
   size_t iterator = 0;
+
   for (auto file : files) {
     if (iterator < max) {
       int i = 0;
@@ -108,7 +111,6 @@ GtkTreeModel* MainWindow::populateCompletion(bool init) {
   gtk_list_store_append(store, &iter);
   gtk_list_store_set(store, &iter, COL_ICON, icon_name.c_str(), COL_NAME, "Open Settings", -1);
 
-  tfile_clear(&root);
   return GTK_TREE_MODEL(store);
 }
 
@@ -206,10 +208,11 @@ void MainWindow::setVisual(Glib::RefPtr<Gdk::Visual> visual) {
 }
 
 void MainWindow::resetCompletion() {
-  this->ActivateCompletion(false);
+  this->ActivateCompletion("");
 }
 
 bool MainWindow::on_match(const Glib::ustring& key, const Gtk::TreeModel::const_iterator& iter) {
+  std::cout << key << std::endl;
   return true; // Always show
 }
 
@@ -225,4 +228,6 @@ void MainWindow::onEntryChanged() {
     m_textbox.set_text("");
     Gtk::Window::hide();
   }
+
+  this->populateCompletion(m_textbox.get_text().c_str());
 }
