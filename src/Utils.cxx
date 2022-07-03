@@ -29,8 +29,9 @@ cstring get_template_directory() {
   return (cstring) PATH;
 }
 
-void ls_home() {
+std::vector<std::string> ls_home() {
   cstring PATH = get_template_directory();
+  std::vector<std::string> files;
 
   /* Read! */
   DIR* d;
@@ -40,7 +41,7 @@ void ls_home() {
   if (d) {
     while ((dir = readdir(d)) != NULL) {
       if (dir->d_name[0] != '.')
-        tfile_append(&root, dir->d_name);
+        files.push_back(dir->d_name);
     }
 
     closedir(d);
@@ -48,6 +49,8 @@ void ls_home() {
     printf("Failed to load templates: %s\n", PATH);
     exit(1);
   }
+
+  return files;
 }
 
 cstring open(char* name) {

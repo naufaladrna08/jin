@@ -25,12 +25,13 @@
 
 #include <iostream>
 #include <fstream>
-#include <string.h>
+#include <string>
 #include <unistd.h>
 #include <sys/types.h>
 #include <pwd.h>
 #include <TFile.h>
 #include <Config.h>
+#include <vector>
 
 #include <gtk/gtk.h>
 
@@ -38,7 +39,7 @@ typedef const char* cstring;
 
 cstring get_home_directory();
 cstring get_template_directory();
-void ls_home();
+std::vector<std::string> ls_home();
 cstring open(char* name);
 void create_template(string title, string content);
 string get_text_of_textview(GtkTextView* text_view);
