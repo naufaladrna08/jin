@@ -9,6 +9,7 @@ set(CMAKE_CXX_STANDARD 11)
 add_executable(jin
   main.cxx 
   MainWindow.cxx
+  ExampleWindow.cxx
   Utils.cxx
   TFile.cxx
   FormWindow.cxx
