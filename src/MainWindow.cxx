@@ -216,9 +216,12 @@ void MainWindow::CreateModel() {
 
   for (auto file : files) {
     /* Before extension */
+    size_t lastindex = file.find_last_of("."); 
+    std::string rawname = file.substr(0, lastindex); 
+    
     row = *(refCompletionModel->append());
     row[m_column.m_col_id] = id;
-    row[m_column.m_col_name] = file;
+    row[m_column.m_col_name] = rawname;
     row[m_column.m_col_icon] = icon_name;
 
     id++;
