@@ -31,17 +31,15 @@ class MainWindow : public Gtk::Window {
 
   protected:
     Gtk::Entry m_textbox;
-    GtkListStore* store;
-    GtkEntryCompletion* completion;
-    GtkTreeModel* completion_model;
-    GtkTreeModel* populateCompletion(std::string key);
 
+    Glib::RefPtr<Gtk::ListStore> refCompletionModel;
     Glib::RefPtr<Gtk::EntryCompletion> m_completion;
-    Glib::RefPtr<Gtk::TreeModel> m_model;
-    
+    Gtk::TreeModel::Row row;
+
     bool onKeyPress(GdkEventKey* event);
     void onEntryChanged();
-    void ActivateCompletion(std::string key);
+    void CreateModel();
+    void ActivateCompletion();
     bool on_match(const Glib::ustring& key, const Gtk::TreeModel::const_iterator& iter);
     
     void shortcutHandler(const char *keystring, void *user_data);
@@ -51,6 +49,24 @@ class MainWindow : public Gtk::Window {
     SettingsWindow* m_settingswindow;
 
     bool _SUPPORTS_ALPHA = false;
+
+    class ModelColumns : public Gtk::TreeModel::ColumnRecord {
+      public:
+
+        ModelColumns() { 
+          add(m_col_id); 
+          add(m_col_name); 
+          add(m_col_icon); 
+        }
+
+        Gtk::TreeModelColumn<unsigned int> m_col_id;
+        Gtk::TreeModelColumn<Glib::ustring> m_col_name;
+        Gtk::TreeModelColumn<Glib::ustring> m_col_icon;
+    };
+
+    ModelColumns m_column;
+    typedef std::map<int, Glib::ustring> type_actions_map;
+    type_actions_map m_CompletionActions;
     
   private:
     int m_screenw, m_screenh;

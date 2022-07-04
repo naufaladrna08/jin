@@ -26,11 +26,12 @@ MainWindow::MainWindow() {
   init_config_and_css();
 
   /* Initialize completion */
-  ActivateCompletion("Test");
+  CreateModel();
+  ActivateCompletion();
 
   /* Set window's size */
   Gtk::Window::set_size_request(m_screenw / 3, 32);
-  Gtk::Window::move((m_screenw / 2) - (m_screenw / 3) / 2, m_screenh / 2 - 64);
+  Gtk::Window::move((m_screenw / 2) - (m_screenw / 3) / 2, m_screenh / 4);
   Gtk::Window::set_skip_taskbar_hint(true);
   
   add(m_textbox);
@@ -47,102 +48,54 @@ MainWindow::MainWindow() {
 }
 
 MainWindow::~MainWindow() {
-  delete store;
-  delete completion;
+
 }
 
-void MainWindow::ActivateCompletion(std::string key) {
+void MainWindow::ActivateCompletion() {
   m_completion = Gtk::EntryCompletion::create();
-  
-  completion_model = this->populateCompletion(key);
-  m_model = Glib::wrap(completion_model);
-  m_completion->set_model(m_model);
+  m_completion->set_model(refCompletionModel);  
+
   m_completion->set_text_column(1);
-  m_completion->set_minimum_key_length(1);
+  m_completion->set_minimum_key_length(0);
   m_completion->set_popup_completion(true);
   m_completion->set_match_func(sigc::mem_fun(*this, &MainWindow::on_match));
   
   Gtk::CellRendererPixbuf pixbuf;
   m_completion->pack_start(pixbuf, true);
-  m_completion->add_attribute(pixbuf, "icon_name", 0);
+  m_completion->add_attribute(pixbuf, "icon_name", 2);
 
-  gtk_entry_set_completion(GTK_ENTRY(m_textbox.gobj()), m_completion->gobj());
+  m_textbox.set_completion(m_completion);
   gtk_entry_set_placeholder_text(GTK_ENTRY(m_textbox.gobj()), "Search Template");
 }
 
-GtkTreeModel* MainWindow::populateCompletion(std::string key) {
-  int max = get_config_int("max_displayed_item");
-  std::vector<std::string> files;
-
-  // if (key.compare("") == 0)
-    files = ls_home();
-  // else {
-  //   std::vector<std::string> temp = ls_home();
-  //   files = tfile_search(temp, key.c_str());
-  // }
-
-  store = gtk_list_store_new(COL_NUM, G_TYPE_STRING, G_TYPE_STRING);
-  GtkTreeIter iter;
-  std::string icon_name = "edit-copy";
-
-  size_t iterator = 0;
-
-  for (auto file : files) {
-    if (iterator < max) {
-      int i = 0;
-
-      /* Before extension */
-
-      gtk_list_store_append(store, &iter);
-      gtk_list_store_set(
-        store, &iter,
-        COL_ICON, icon_name.c_str(), 
-        COL_NAME, file.c_str(), 
-        -1
-      );
-
-      iterator++;
-    } else {
-      break;
-    }
-	}
-
-  gtk_list_store_append(store, &iter);
-  gtk_list_store_set(store, &iter, COL_ICON, icon_name.c_str(), COL_NAME, "(+) Add new template", -1);
-  gtk_list_store_append(store, &iter);
-  gtk_list_store_set(store, &iter, COL_ICON, icon_name.c_str(), COL_NAME, "Open Settings", -1);
-
-  return GTK_TREE_MODEL(store);
-}
-
 bool MainWindow::onKeyPress(GdkEventKey* event) {
-  // if (event->keyval == GDK_KEY_Return && 
-  //   strcmp(m_textbox.get_text().c_str(), "(+) Add new template") == 0) {
-  //   m_formwindow = new FormWindow;
+  if (event->keyval == GDK_KEY_Return && 
+    strcmp(m_textbox.get_text().c_str(), "(+) Add new template") == 0) {
+    m_formwindow = new FormWindow;
 
-  //   m_textbox.set_text("");
-  //   Gtk::Window::hide();
-  // } else if (event->keyval == GDK_KEY_Return && 
-  //            strcmp(m_textbox.get_text().c_str(), "Open Settings") == 0) {
-  //   m_settingswindow = new SettingsWindow;
+    m_textbox.set_text("");
+    Gtk::Window::hide();
+  } else if (event->keyval == GDK_KEY_Return && 
+             strcmp(m_textbox.get_text().c_str(), "Open Settings") == 0) {
+    m_settingswindow = new SettingsWindow;
 
-  //   m_textbox.set_text("");
-  //   Gtk::Window::hide();
-  // } else {
-  //   if (event->keyval == GDK_KEY_Return) {
-  //     cstring filecontent = open(strdup(m_textbox.get_text().c_str()));
+    m_textbox.set_text("");
+    Gtk::Window::hide();
+  } else {
+    if (event->keyval == GDK_KEY_Return) {
+      cstring filecontent = open(strdup(m_textbox.get_text().c_str()));
 
-  //     GtkClipboard* clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
-  //     gtk_clipboard_set_text(clipboard, filecontent, -1);
-  //     Gtk::Window::hide();
+      GtkClipboard* clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+      gtk_clipboard_set_text(clipboard, filecontent, -1);
+      Gtk::Window::hide();
 
-  //     /* Reset textbox */
-  //     m_textbox.set_text("");
-  //   } else if (event->keyval == GDK_KEY_Escape) {
-  //     Gtk::Window::hide();
-  //     m_textbox.set_text("");
-  //   }
-  // }
+      /* Reset textbox */
+      m_textbox.set_text("");
+    } else if (event->keyval == GDK_KEY_Escape) {
+      Gtk::Window::hide();
+      m_textbox.set_text("");
+    }
+  }
 
   return false;
 }
@@ -205,11 +158,31 @@ void MainWindow::setVisual(Glib::RefPtr<Gdk::Visual> visual) {
 }
 
 void MainWindow::resetCompletion() {
-  this->ActivateCompletion("");
+  this->ActivateCompletion();
 }
 
 bool MainWindow::on_match(const Glib::ustring& key, const Gtk::TreeModel::const_iterator& iter) {
-  return true; // Always show
+  if (iter) {
+    Gtk::TreeModel::Row row = *iter;
+
+    Glib::ustring::size_type key_length = key.size();
+    Glib::ustring filter_string = row[m_column.m_col_name];
+
+    Glib::ustring filter_string_start = filter_string.lowercase();
+    //The key is lower-case, even if the user input is not.
+
+    const char* ckey = key.c_str();
+    const char* str = filter_string_start.c_str();
+
+    if (strstr(str, ckey)) {
+      return true;
+    }
+
+    // if(key == filter_string_start)
+    //   return true; //A match was found.
+  }
+
+  return false; //No match.
 }
 
 void MainWindow::onEntryChanged() {
@@ -225,5 +198,28 @@ void MainWindow::onEntryChanged() {
     Gtk::Window::hide();
   }
 
-  this->ActivateCompletion("AAAAAAAAAA");
+  /* TODO: fix this for version 1.2 */
+  // if (m_textbox.get_text_length() > 1) {
+  //   CreateModel(m_textbox.get_text().c_str());
+  //   ActivateCompletion();
+  // }
+}
+
+void MainWindow::CreateModel() {
+  int max = get_config_int("max_displayed_item");
+  std::string icon_name = "edit-copy";
+  std::vector<std::string> files = ls_home();
+
+  refCompletionModel = Gtk::ListStore::create(m_column);
+  int id = 0;
+
+  for (auto file : files) {
+    /* Before extension */
+    row = *(refCompletionModel->append());
+    row[m_column.m_col_id] = id;
+    row[m_column.m_col_name] = file;
+    row[m_column.m_col_icon] = icon_name;
+
+    id++;
+	}
 }
