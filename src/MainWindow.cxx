@@ -19,15 +19,15 @@ MainWindow::MainWindow() {
   Gtk::Window::set_decorated(false);
   Gtk::Window::set_app_paintable(true);
 
-  /* Load Stylesheet (CSS) */
-  this->LoadStylesheet();
-
   /* Initialize Configuration */
   init_config_and_css();
 
   /* Initialize completion */
   CreateModel();
   ActivateCompletion();
+
+  /* Load Stylesheet (CSS) */
+  this->LoadStylesheet();
 
   /* Set window's size */
   Gtk::Window::set_size_request(m_screenw / 3, 32);
@@ -56,7 +56,7 @@ void MainWindow::ActivateCompletion() {
   m_completion->set_model(refCompletionModel);  
 
   m_completion->set_text_column(1);
-  m_completion->set_minimum_key_length(0);
+  m_completion->set_minimum_key_length(1);
   m_completion->set_popup_completion(true);
   m_completion->set_match_func(sigc::mem_fun(*this, &MainWindow::on_match));
   
@@ -108,6 +108,7 @@ void MainWindow::LoadStylesheet() {
   PATH += DEFAULT_CSS;
 
   /* Getting default css */
+  std::cout << PATH << std::endl;
   if (!css->load_from_path(PATH.c_str())) {
     printf("Failed to load css\n");
     exit(1);
