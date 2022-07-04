@@ -26,7 +26,7 @@ MainWindow::MainWindow() {
   init_config_and_css();
 
   /* Initialize completion */
-  ActivateCompletion(true);
+  ActivateCompletion("Test");
 
   /* Set window's size */
   Gtk::Window::set_size_request(m_screenw / 3, 32);
@@ -50,16 +50,16 @@ MainWindow::~MainWindow() {
 
 }
 
-void MainWindow::ActivateCompletion(bool init) {
+void MainWindow::ActivateCompletion(std::string key) {
   m_completion = Gtk::EntryCompletion::create();
   
-  completion_model = this->populateCompletion("");
+  completion_model = this->populateCompletion(key);
   m_model = Glib::wrap(completion_model);
   m_completion->set_model(m_model);
   m_completion->set_text_column(1);
-  m_completion->set_minimum_key_length(0);
+  m_completion->set_minimum_key_length(1);
   m_completion->set_popup_completion(true);
-  // m_completion->set_match_func(sigc::mem_fun(*this, &MainWindow::on_match));
+  m_completion->set_match_func(sigc::mem_fun(*this, &MainWindow::on_match));
   
   Gtk::CellRendererPixbuf pixbuf;
   m_completion->pack_start(pixbuf, true);
@@ -73,12 +73,12 @@ GtkTreeModel* MainWindow::populateCompletion(std::string key) {
   int max = get_config_int("max_displayed_item");
   std::vector<std::string> files;
 
-  if (key.compare("") == 0)
+  // if (key.compare("") == 0)
     files = ls_home();
-  else {
-    std::vector<std::string> temp = ls_home();
-    files = tfile_search(temp, key.c_str());
-  }
+  // else {
+  //   std::vector<std::string> temp = ls_home();
+  //   files = tfile_search(temp, key.c_str());
+  // }
 
   store = gtk_list_store_new(COL_NUM, G_TYPE_STRING, G_TYPE_STRING);
   GtkTreeIter iter;
@@ -115,48 +115,46 @@ GtkTreeModel* MainWindow::populateCompletion(std::string key) {
 }
 
 bool MainWindow::onKeyPress(GdkEventKey* event) {
-  if (event->keyval == GDK_KEY_Return && 
-    strcmp(m_textbox.get_text().c_str(), "(+) Add new template") == 0) {
-    m_formwindow = new FormWindow;
+  // if (event->keyval == GDK_KEY_Return && 
+  //   strcmp(m_textbox.get_text().c_str(), "(+) Add new template") == 0) {
+  //   m_formwindow = new FormWindow;
 
-    m_textbox.set_text("");
-    Gtk::Window::hide();
-  } else if (event->keyval == GDK_KEY_Return && 
-             strcmp(m_textbox.get_text().c_str(), "Open Settings") == 0) {
-    m_settingswindow = new SettingsWindow;
+  //   m_textbox.set_text("");
+  //   Gtk::Window::hide();
+  // } else if (event->keyval == GDK_KEY_Return && 
+  //            strcmp(m_textbox.get_text().c_str(), "Open Settings") == 0) {
+  //   m_settingswindow = new SettingsWindow;
 
-    m_textbox.set_text("");
-    Gtk::Window::hide();
-  } else {
-    if (event->keyval == GDK_KEY_Return) {
-      cstring filecontent = open(strdup(m_textbox.get_text().c_str()));
+  //   m_textbox.set_text("");
+  //   Gtk::Window::hide();
+  // } else {
+  //   if (event->keyval == GDK_KEY_Return) {
+  //     cstring filecontent = open(strdup(m_textbox.get_text().c_str()));
 
-      GtkClipboard* clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
-      gtk_clipboard_set_text(clipboard, filecontent, -1);
-      Gtk::Window::hide();
+  //     GtkClipboard* clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+  //     gtk_clipboard_set_text(clipboard, filecontent, -1);
+  //     Gtk::Window::hide();
 
-      /* Reset textbox */
-      m_textbox.set_text("");
-    } else if (event->keyval == GDK_KEY_Escape) {
-      Gtk::Window::hide();
-      m_textbox.set_text("");
-    }
-  }
+  //     /* Reset textbox */
+  //     m_textbox.set_text("");
+  //   } else if (event->keyval == GDK_KEY_Escape) {
+  //     Gtk::Window::hide();
+  //     m_textbox.set_text("");
+  //   }
+  // }
 
   return false;
 }
 
 void MainWindow::LoadStylesheet() {
   auto css = Gtk::CssProvider::create();
-  string PATH = (string) malloc(strlen(get_home_directory()) + 1);
-  strcpy(PATH, get_home_directory());
+  std::string PATH = get_home_directory();
+  PATH += "/";
+  PATH += CONFIG_PATH;
+  PATH += DEFAULT_CSS;
 
   /* Getting default css */
-  strcat(PATH, "/");
-  strcat(PATH, CONFIG_PATH);
-  strcat(PATH, DEFAULT_CSS);
-
-  if (!css->load_from_path(PATH)) {
+  if (!css->load_from_path(PATH.c_str())) {
     printf("Failed to load css\n");
     exit(1);
   }
@@ -174,8 +172,6 @@ void MainWindow::LoadStylesheet() {
   Glib::RefPtr<Gtk::StyleContext> entryContext = m_textbox.get_style_context();
 
   entryContext->add_class("textbox");
-
-  free(PATH);
 }
 
 bool MainWindow::onDraw(const Cairo::RefPtr<Cairo::Context>& ctx) {
@@ -212,7 +208,6 @@ void MainWindow::resetCompletion() {
 }
 
 bool MainWindow::on_match(const Glib::ustring& key, const Gtk::TreeModel::const_iterator& iter) {
-  std::cout << key << std::endl;
   return true; // Always show
 }
 
@@ -229,5 +224,5 @@ void MainWindow::onEntryChanged() {
     Gtk::Window::hide();
   }
 
-  this->populateCompletion(m_textbox.get_text().c_str());
+  this->ActivateCompletion("AAAAAAAAAA");
 }

@@ -44,7 +44,7 @@ class MainWindow : public Gtk::Window {
     // void set_match_func(const Gtk::EntryCompletion::SlotMatch &slot)
     bool onKeyPress(GdkEventKey* event);
     void onEntryChanged();
-    void ActivateCompletion(bool init);
+    void ActivateCompletion(std::string key);
     bool on_match(const Glib::ustring& key, const Gtk::TreeModel::const_iterator& iter);
     
     void shortcutHandler(const char *keystring, void *user_data);
