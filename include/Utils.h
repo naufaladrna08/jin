@@ -40,7 +40,7 @@ typedef const char* cstring;
 cstring get_home_directory();
 cstring get_template_directory();
 std::vector<std::string> ls_home();
-cstring open(char* name);
+cstring open(std::string name);
 void create_template(string title, string content);
 string get_text_of_textview(GtkTextView* text_view);
 

@@ -53,16 +53,16 @@ std::vector<std::string> ls_home() {
   return files;
 }
 
-cstring open(char* name) {
-  char* PATH = (char*) get_template_directory();
-  strcat(PATH, name);
-  strcat(PATH, ".tmpl");
+cstring open(std::string name) {
+  std::string PATH = get_template_directory();
+  PATH += name;
+  PATH += ".tmpl";
 
   FILE    *textfile;
   char    *text;
   long    numbytes;
     
-  textfile = fopen(PATH, "r");
+  textfile = fopen(PATH.c_str(), "r");
 
   if (textfile == NULL) {
     printf("File not found\n");
