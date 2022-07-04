@@ -47,7 +47,8 @@ MainWindow::MainWindow() {
 }
 
 MainWindow::~MainWindow() {
-
+  delete store;
+  delete completion;
 }
 
 void MainWindow::ActivateCompletion(std::string key) {

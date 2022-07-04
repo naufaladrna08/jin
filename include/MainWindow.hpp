@@ -15,9 +15,6 @@
 #include <X11/Xlib.h>
 #include <keybinder-3.0/keybinder.h>
 
-extern tfile_t root;
-extern tfile_t result;
-
 enum {
   COL_ICON = 0,
   COL_NAME,
@@ -41,7 +38,7 @@ class MainWindow : public Gtk::Window {
 
     Glib::RefPtr<Gtk::EntryCompletion> m_completion;
     Glib::RefPtr<Gtk::TreeModel> m_model;
-    // void set_match_func(const Gtk::EntryCompletion::SlotMatch &slot)
+    
     bool onKeyPress(GdkEventKey* event);
     void onEntryChanged();
     void ActivateCompletion(std::string key);
