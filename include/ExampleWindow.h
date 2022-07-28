@@ -1,7 +1,8 @@
 #ifndef GTKMM_EXAMPLEWINDOW_H
 #define GTKMM_EXAMPLEWINDOW_H
 
-#include <gtkmm.h>
+#include <gtkmm-3.0/gtkmm.h>
+// #include <gtkmm.h>
 #include <iostream>
 #include <string>
 #include <cstdlib>

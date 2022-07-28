@@ -1,5 +1,6 @@
 #include <MainWindow.hpp>
-#include <gtkmm/main.h>
+// #include <gtkmm/main.h>
+#include <gtkmm-3.0/gtkmm.h>
 #include <Common.h>
 
 MainWindow* winroot;
